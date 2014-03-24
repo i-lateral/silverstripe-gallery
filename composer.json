@@ -1,9 +1,9 @@
 {
   "name": "i-lateral/silverstripe-gallery",
-  "description": "A Silverstripe image gallery allowing multi image upload and defaults to using coffeescriper ad gallery",
+  "description": "A Silverstripe image gallery allowing multi image upload, re-ordering and generation of a flexslider based image gallery",
     "type": "silverstripe-module",
     "homepage": "http://github.com/i-lateral/silverstripe-gallery",
-    "keywords": ["silverstripe", "gallery"],
+    "keywords": ["silverstripe","gallery","image","flexslider"],
     "license": "BSD-3-Clause",
     "authors": [
         {
@@ -15,9 +15,8 @@
         "issues": "http://github.com/i-lateral/silverstripe-gallery/issues"
     },
     "require": {
-        "silverstripe/framework": ">=3.1",
-        "silverstripe/cms": ">=3.1",
-        "bummzack/sortablefile":"dev-master"
+        "silverstripe/framework": ">=3.0",
+        "silverstripe/cms": ">=3.0"
     },
     "extra": {
         "installer-name": "gallery"

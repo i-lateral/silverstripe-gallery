@@ -1,17 +1,17 @@
 <?php
 
 class GalleryPage extends Page {
-    private static $icon = "gallery/images/gallery.png";
+    static $icon = "gallery/images/gallery.png";
 
-    private static $db = array(
+    static $db = array(
         "HideDescription"   => 'Boolean'
     );
 
-    private static $many_many = array(
+    static $many_many = array(
         'Images' => 'Image'
     );
 
-    private static $many_many_extraFields = array(
+    static $many_many_extraFields = array(
         'Images' => array('SortOrder' => 'Int')
     );
 
@@ -21,7 +21,7 @@ class GalleryPage extends Page {
      * @return ArrayList
      */
     public function SortedImages(){
-        return $this->Images()->Sort('SortOrder');
+        return $this->Images();
     }
 
     public function getCMSFields() {
@@ -34,7 +34,7 @@ class GalleryPage extends Page {
             $this->ID
         );
 
-        $sortable_field = SortableUploadField::create('Images', 'Images to associate with this page')
+        $sortable_field = UploadField::create('Images', 'Images to associate with this page')
             ->setFolderName($upload_folder);
 
         $fields->addFieldToTab("Root.Gallery", $sortable_field);

@@ -14,7 +14,7 @@ class GalleryPage_Controller extends Page_Controller {
         if($this->Images()->exists()) {
             $vars = array(
                 'HideDescription' => $this->HideDescription,
-                'Images' => $this->Images()->sort('SortOrder'),
+                'Images' => $this->Images(),
                 'Width' => GalleryConfig::getWidth(),
                 'Height' => GalleryConfig::getHeight()
             );
