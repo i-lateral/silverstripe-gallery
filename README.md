@@ -9,7 +9,7 @@ This module was created by [i-lateral](http://www.i-lateral.com).
 Although this module can be extended with your own templates / JavaScript,
 the default makes use of:
 
-The CoffeeScriper and his [JavaScript adgallery](http://coffeescripter.com/code/ad-gallery).
+The CoffeeScriper and his [JavaScript adgallery](https://adgallery.codeplex.com/).
 
 ## Installation
 Install this module either by downloading and adding to:
