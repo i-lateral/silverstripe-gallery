@@ -7,7 +7,7 @@
 
 <% include SideBar %>
 
-<div class="content-container <% if $Menu(2) %>unit-75<% end_if %>">
+<div class="content-container col-xs-12<% if $Menu(2) %> unit-75 col-md-9<% end_if %>">
     <article>
         <h1>$Title</h1>
 
