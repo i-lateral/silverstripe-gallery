@@ -1,6 +1,12 @@
 <?php
 
 class GalleryPage extends Page {
+
+    /**
+     * @var string
+     */
+    private static $description = 'Display a "gallery" of images';
+
     private static $icon = "gallery/images/gallery.png";
 
     private static $db = array(
