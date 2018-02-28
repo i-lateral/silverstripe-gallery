@@ -1,63 +1,63 @@
-Silverstripe Image Gallery
-==========================
+# Silverstripe Image Gallery
 
-Adds an image gallery to your silverstripe website.
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/i-lateral/silverstripe-gallery/badges/quality-score.png?b=1)](https://scrutinizer-ci.com/g/i-lateral/silverstripe-gallery/?branch=1)
+
+[![Build Status](https://scrutinizer-ci.com/g/i-lateral/silverstripe-gallery/badges/build.png?b=1)](https://scrutinizer-ci.com/g/i-lateral/silverstripe-gallery/build-status/1)
+
+Adds image galleries to your SilverStripe website.
 
 ## Author
+
 This module was created by [i-lateral](http://www.i-lateral.com).
 
-Although this module can be extended with your own templates / JavaScript,
-the default makes use of:
-
-The CoffeeScriper and his [JavaScript adgallery](https://adgallery.codeplex.com/).
-
 ## Installation
-Install this module either by downloading and adding to:
+
+The prefered method is via composer:
+
+    composer require i-lateral/silverstripe-gallery
+
+Alternativley download and add to:
 
 [silverstripe-root]/gallery
 
-Then run: http://yoursiteurl.com/dev/build/
-
-Or alternativly add to your projects composer.json
+Then run a `dev/build` (eithe from the browser of the command line).
 
 ## Usage
-Once installed, you can add a gallery to your site by creating a
-"gallery page" from within the CMS.
 
-Under the gallery tab, you can then upload as many images as needed.
+Once installed, you can add either a `Gallery Hub` or a `Gallery Page` to your site.
 
-## Changing the width and height of images
-If you wish to change the width and height of the gallery images loaded, you can
-do this using the Gallery Config object (in you _config, or controller).
+### Gallery Hub
 
-Gallery config has a static method called setDimensions() to do this.
+Hub pages generate a thumbnail for each child `GalleryPage` with a link to view that gallery.
 
-For example, if you wanted to set your gallery to be 900px wide by 300px high,
-in your _config.php file use:
+The thumbnail is generated based on the first image in the list
 
-    GalleryConfig::setDimensions(900,300);
+### Gallery Page
 
-You can also use standard SS config to set GalleryConfig's statics, eg:
+A gallery page allows you to upload images and then generates them as a thumbnail
+gallery. Clicking on the thumbnail opens a modal/lightbox.
 
-    GalleryConfig::config()->width = 900;
+You can add a gallery to your site by creating a `GalleryPage` from within the CMS.
 
-## Available configuration options
-These are the config options that can be set through GalleryConfig
+Under the `Gallery` tab, you can then upload as many images as needed.
 
-**width** (default: 800): Width in PX of gallery images
-**height** (default: 400): Height in PX of gallery images
-**background** (default: ffffff): If we use a padded image, set the background colour
-**thumb_width** (default: 150): Width in PX of thumbnail images
-**thumb_height** (default: 100): Height in PX of thumbnail images
-**resize_type** (default: crop): Type of resize to use on images, this can be:
+#### Changing the width and height of images
+
+If you wish to change the width and height of the gallery images (or thumbnails) loaded,
+you can do this under the `Settings` tab on your `GalleryPage`.
+
+You can set the following options:
+
+* **Image Width** (default: 950): Width in PX of images loaded in the modal
+* **Image Height** (default: 500): Height in PX of images loaded in the modal
+* **Image Resize Type** (default: ratio): Type of resize to use on images
+* **Background** (default: ffffff): If we use a padded image, set the background colour
+* **Thumbnail Width** (default: 150): Width in PX of thumbnail images
+* **Thumbnail Height** (default: 150): Height in PX of thumbnail images
+* **Thumbnail Resize Type** (default: pad): Type of resize to use on thumbnails
+
+Resize options are as follows:
 
 * crop: Crop image to exact size
 * pad: Pad image to size and add whitespace
 * ratio: Perform a ratio resize of images
-
-## Changing the gallery JS
-By default, the galllery plugin uses [jQuery Ad Gallery](http://coffeescripter.com/code/ad-gallery)
-To set itself up, it calls the ss_galleries jquery plugin (gallery/javascript/ss_galleries.js).
-
-If you want to switch out this behaviour, you can remove the default ss_galleries
-file and replace it with your own (in your controller or template).
