@@ -17,13 +17,28 @@ class GalleryPage_Controller extends Page_Controller
         return $pages;
     }
 
-    protected function GalleryImage(Image $image)
+    /**
+     * Generate an image based on the provided type
+     * (either )
+     *
+     * @param Image $image
+     * @param string $thumbnail generate a smaller image (based on thumbnail settings)
+     * @return void
+     */
+    protected function ScaledImage(Image $image, $thumbnail = false)
     {
-        $resize_type = $this->ImageResizeType;
-        $width = $this->ImageWidth;
-        $height = $this->ImageHeight;
-        $background = $this->PaddedImageBackground;
         $img = false;
+        $background = $this->PaddedImageBackground;
+        
+        if ($thumbnail) {
+            $resize_type = $this->ThumbnailResizeType;
+            $width = $this->ThumbnailWidth;
+            $height = $this->ThumbnailHeight;
+        } else {
+            $resize_type = $this->ImageResizeType;
+            $width = $this->ImageWidth;
+            $height = $this->ImageHeight;
+        }
 
         switch ($resize_type) {
             case 'crop':
@@ -40,27 +55,14 @@ class GalleryPage_Controller extends Page_Controller
         return $img;
     }
 
+    protected function GalleryImage(Image $image)
+    {
+        return $this->ScaledImage($image);
+    }
+
     protected function GalleryThumbnail(Image $image)
     {
-        $resize_type = $this->ThumbnailResizeType;
-        $width = $this->ThumbnailWidth;
-        $height = $this->ThumbnailHeight;
-        $background = $this->PaddedImageBackground;
-
-        switch ($resize_type) {
-            case 'crop':
-                $img = $image->CroppedImage($width,$height);
-                break;
-            case 'pad':
-                $img = $image->PaddedImage($width,$height,$background);
-                break;
-            case 'ratio':
-                $img = $image->SetRatioSize($width,$height);
-                break;
-        }
-
-        return $img;
-
+        return $this->ScaledImage($image, true);
     }
 
     /**
