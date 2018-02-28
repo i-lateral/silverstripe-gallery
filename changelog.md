@@ -14,5 +14,4 @@ Switch to stable dependencies
 
 * Add new "Gallery Hub" template that can display child "Galleries" in a grid of images.
 * Switch to grid based default gallery with modal popup.
-* Add ability to select default or "Masonry" gallery from settings.
 * Switch galleries to use in page config (over generic config class)

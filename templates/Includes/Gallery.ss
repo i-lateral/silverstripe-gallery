@@ -1,23 +1,22 @@
 <% if $Images %>
-    <div class="gallery-holder">
-        <div class="gallery flexslider">
-            <div class="slides">
-                <% loop $Images %>
-                    <div class="slide pos-{$Pos} $FirstLast">
-                        $GalleryImage
+    <div class="gallery-thumbnails">
+        <div class="row line">
+            <% loop $Images %>
+                <% with $GalleryThumbnail %>
+                    <div class="col-lg-2 col-md-3 col-xs-6 unit size1of5 <% if $MultipleOf(5) %>lastUnit<% end_if %>">
+                        <img
+                            class="gallery-thumbnail"
+                            src="{$Link}"
+                            alt="{$Title}"
+                            data-url="{$Up.GalleryImage.Link}"
+                        />
                     </div>
-                <% end_loop %>
-            </div>
-        </div>
-
-        <div class="control flexslider">
-            <ul class="slides">
-                <% loop $Images %>
-                    <li class="slide pos-{$Pos} $FirstLast">
-                        $GalleryThumbnail
-                    </li>
-                <% end_loop %>
-            </ul>
+                <% end_with %>
+            <% end_loop %>
         </div>
     </div>
+
+    <% with $Images %>
+        <% include Pagination %>
+    <% end_with %>
 <% end_if %>

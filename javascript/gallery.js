@@ -1,24 +1,23 @@
-(function($) {
-    $(window).load(function() {
-        // The slider being synced must be initialized first
-        $('.gallery-holder .control').flexslider({
-            animation: "slide",
-            controlNav: false,
-            animationLoop: false,
-            slideshow: false,
-            itemWidth: 150,
-            itemMargin: 5,
-            asNavFor: '.gallery-holder .gallery'
+var thumbnails = document.getElementsByClassName("gallery-thumbnail");
+
+for (var i = 0; i < thumbnails.length; i++) {
+    var element = thumbnails[i];
+
+    element.addEventListener("click", function(event) {
+        // get URL of main image
+        var url = event.target.dataset.url;
+        var img = document.createElement("IMG"); 
+        img.src = url;
+
+        // instanciate new modal
+        var modal = new tingle.modal({
+            closeMethods: ['overlay', 'button', 'escape'],
+            closeLabel: "Close",
+            cssClass: ['gallery-modal']
         });
 
-        $('.gallery-holder .gallery').flexslider({
-            animation: "slide",
-            selector: ".slides > .slide",
-            controlNav: false,
-            animationLoop: false,
-            slideshow: false,
-            keyboard: true,
-            sync: ".gallery-holder .control"
-        });
+        // set content
+        modal.setContent(img);
+        modal.open();
     });
-})(jQuery)
+}

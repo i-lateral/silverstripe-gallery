@@ -1,0 +1,1 @@
+for(var thumbnails=document.getElementsByClassName("gallery-thumbnail"),i=0;i<thumbnails.length;i++){var element=thumbnails[i];element.addEventListener("click",function(e){var t=e.target.dataset.url,l=document.createElement("IMG");l.src=t;var a=new tingle.modal({closeMethods:["overlay","button","escape"],closeLabel:"Close",cssClass:["gallery-modal"]});a.setContent(l),a.open()})}

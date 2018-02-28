@@ -23,6 +23,7 @@ class GalleryPage extends Page
         "ThumbnailWidth" => "Int",
         "ThumbnailHeight" => "Int",
         "ThumbnailResizeType" => "Enum(array('crop', 'pad', 'ratio'), 'crop')",
+        "ThumbnailsPerPage" => "Int",
         "PaddedImageBackground" => "Varchar"
     );
 
@@ -31,6 +32,7 @@ class GalleryPage extends Page
         "ImageHeight" => 500,
         "ThumbnailWidth" => 150,
         "ThumbnailHeight" => 150,
+        "ThumbnailsPerPage" => 18,
         "PaddedImageBackground" => "ffffff"
     );
 
@@ -94,6 +96,7 @@ class GalleryPage extends Page
                 NumericField::create("ThumbnailHeight"),
                 DropdownField::create("ThumbnailResizeType")
                     ->setSource($this->dbObject("ThumbnailResizeType")->enumValues()),
+                NumericField::create('ThumbnailsPerPage'),
                 TextField::create("PaddedImageBackground"),
                 CheckboxField::create('HideDescription')
             )
@@ -113,6 +116,7 @@ class GalleryPage extends Page
         $this->ImageHeight = ($this->ImageHeight) ? $this->ImageHeight : $defaults["ImageHeight"];
         $this->ThumbnailWidth = ($this->ThumbnailWidth) ? $this->ThumbnailWidth : $defaults["ThumbnailWidth"];
         $this->ThumbnailHeight = ($this->ThumbnailHeight) ? $this->ThumbnailHeight : $defaults["ThumbnailHeight"];
+        $this->ThumbnailsPerPage = ($this->ThumbnailsPerPage) ? $this->ThumbnailsPerPage : $defaults["ThumbnailsPerPage"];
         $this->PaddedImageBackground = ($this->PaddedImageBackground) ? $this->PaddedImageBackground : $defaults["PaddedImageBackground"];
     }
 

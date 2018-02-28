@@ -1,8 +1,20 @@
 <?php
+
 class GalleryPage_Controller extends Page_Controller
 {
     public function init() {
         parent::init();
+    }
+
+    public function PaginatedImages()
+    {
+        $list = $this->SortedImages();
+        $limit = $this->ThumbnailsPerPage;
+
+        $pages = PaginatedList::create($list, $this->getRequest());
+        $pages->setpageLength($limit);
+
+        return $pages;
     }
 
     protected function GalleryImage(Image $image)
@@ -63,7 +75,7 @@ class GalleryPage_Controller extends Page_Controller
 
             // Create a list of images with generated gallery image and thumbnail
             $images = ArrayList::create();
-            foreach ($this->SortedImages() as $image) {
+            foreach ($this->PaginatedImages() as $image) {
                 $image_data = $image->toMap();
                 $image_data["GalleryImage"] = $this->GalleryImage($image);
                 $image_data["GalleryThumbnail"] = $this->GalleryThumbnail($image);

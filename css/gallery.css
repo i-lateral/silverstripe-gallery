@@ -1,15 +1,20 @@
-/* Reduce the margin below the main gallery and control nav */
-.gallery-holder .flexslider { margin-bottom: 1em; }
+/* Thanks to W3Schools for this code:
+https://www.w3schools.com/howto/howto_css_modals.asp */
+.gallery-thumbnail {
+  cursor: pointer;
+}
 
-/* REMOVE TYPOGRAPHY STYLES ON UL's */
-.gallery-holder .flexslider ul { margin: 0; }
-.gallery-holder .flexslider ul li { margin: 0; }
+.gallery-modal .tingle-modal-box {
+  background: transparent;
+  width: auto;
+}
 
-/* DIRECTION NAV STYLES */
-.gallery-holder .flexslider .flex-direction-nav a { line-height: 3em; }
+.gallery-modal .tingle-modal-box__content {
+  padding: 0;
+  text-align: center;
+}
 
-/* CONTROL NAV STYLES */
-.gallery-holder .control .slides .slide { margin-right: 5px; opacity: 0.5; cursor: pointer; }
-.gallery-holder .control .slides .flex-active-slide,
-.gallery-holder .control .slides .slide:hover { opacity: 1; }
-
+.gallery-modal .tingle-modal__close {
+  font-size: 3rem;
+}
+/*# sourceMappingURL=gallery.css.map */
