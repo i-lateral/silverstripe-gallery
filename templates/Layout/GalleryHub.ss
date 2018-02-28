@@ -2,7 +2,7 @@
 	<% include SideBar %>
 <% end_if %>
 
-<div class="content-container unit <% if $ShowSideBar && $Menu(2).exists %>col-md-3 size3of4 lastUnit<% end_if %>">
+<div class="content-container unit <% if $ShowSideBar && $Menu(2).exists %>col-md-9 size3of4 lastUnit<% end_if %>">
 	<article>
 		<h1>$Title</h1>
 		<div class="content">$Content</div>

@@ -16,7 +16,6 @@ class GalleryPage extends Page
     private static $icon = "gallery/images/gallery.png";
 
     private static $db = array(
-        "HideDescription"   => 'Boolean',
         "ImageWidth" => "Int",
         "ImageHeight" => "Int",
         "ImageResizeType" => "Enum(array('crop', 'pad', 'ratio'), 'ratio')",
@@ -24,7 +23,8 @@ class GalleryPage extends Page
         "ThumbnailHeight" => "Int",
         "ThumbnailResizeType" => "Enum(array('crop', 'pad', 'ratio'), 'crop')",
         "ThumbnailsPerPage" => "Int",
-        "PaddedImageBackground" => "Varchar"
+        "PaddedImageBackground" => "Varchar",
+        "ShowSideBar" => "Boolean"
     );
 
     private static $defaults = array(
@@ -33,7 +33,8 @@ class GalleryPage extends Page
         "ThumbnailWidth" => 150,
         "ThumbnailHeight" => 150,
         "ThumbnailsPerPage" => 18,
-        "PaddedImageBackground" => "ffffff"
+        "PaddedImageBackground" => "ffffff",
+        "ShowSideBar" => 1
     );
 
     private static $many_many = array(
@@ -98,7 +99,7 @@ class GalleryPage extends Page
                     ->setSource($this->dbObject("ThumbnailResizeType")->enumValues()),
                 NumericField::create('ThumbnailsPerPage'),
                 TextField::create("PaddedImageBackground"),
-                CheckboxField::create('HideDescription')
+                CheckboxField::create('ShowSideBar')
             )
         );
 

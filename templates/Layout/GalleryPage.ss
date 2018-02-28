@@ -3,9 +3,11 @@
 <% require javascript(gallery/node_modules/tingle.js/dist/tingle.min.js) %>
 <% require javascript(gallery/javascript/gallery.min.js) %>
 
-<% include SideBar %>
+<% if $ShowSideBar && $Menu(2).exists %>
+	<% include SideBar %>
+<% end_if %>
 
-<div class="content-container col-xs-12<% if $Menu(2) %> unit-75 col-md-9<% end_if %>">
+<div class="content-container col-xs-12 <% if $ShowSideBar && $Menu(2).exists %>col-md-9 size3of4 lastUnit<% end_if %>">
     <article class="gallery-page">
         <h1>$Title</h1>
 

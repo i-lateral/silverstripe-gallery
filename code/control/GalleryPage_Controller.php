@@ -83,7 +83,6 @@ class GalleryPage_Controller extends Page_Controller
             }
             
             $vars = array(
-                'HideDescription' => $this->HideDescription,
                 'Images' => $images,
                 'Width' => $this->ImageWidth,
                 'Height' => $this->ImageHeight
