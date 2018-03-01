@@ -22,3 +22,7 @@ Switch to stable dependencies
 * Tidy up codebase slightly.
 * Add extra config/attributes files.
 * Update config.
+
+## 2.0.0
+
+* SilverStripe 4 version (based on 1.2.1)
