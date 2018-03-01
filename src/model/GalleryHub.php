@@ -26,18 +26,18 @@ class GalleryHub extends Page
     /**
      * @var array
      */
-    private static $allowed_children = array(
-        'GalleryPage',
-    );
+    private static $allowed_children = [
+        GalleryPage::class,
+    ];
 
-    private static $db = array(
+    private static $db = [
         "ShowSideBar" => "Boolean",
         "ThumbnailsPerPage" => "Int"
-    );
+    ];
 
-    private static $defaults = array(
+    private static $defaults = [
         "ThumbnailsPerPage" => 18
-    );
+    ];
 
     public function getSettingsFields()
     {

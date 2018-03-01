@@ -9,6 +9,7 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\CheckboxField;
+use SilverStripe\AssetAdmin\Forms\UploadField;
 
 /**
  * A single page that can display many images as thumbnails.
@@ -26,7 +27,7 @@ class GalleryPage extends Page
 
     private static $table_name = "GalleryPage";
 
-    private static $db = array(
+    private static $db = [
         "ImageWidth" => "Int",
         "ImageHeight" => "Int",
         "ImageResizeType" => "Enum(array('crop', 'pad', 'ratio'), 'ratio')",
@@ -36,9 +37,9 @@ class GalleryPage extends Page
         "ThumbnailsPerPage" => "Int",
         "PaddedImageBackground" => "Varchar",
         "ShowSideBar" => "Boolean"
-    );
+    ];
 
-    private static $defaults = array(
+    private static $defaults = [
         "ImageWidth" => 950,
         "ImageHeight" => 500,
         "ThumbnailWidth" => 150,
@@ -46,15 +47,19 @@ class GalleryPage extends Page
         "ThumbnailsPerPage" => 18,
         "PaddedImageBackground" => "ffffff",
         "ShowSideBar" => 1
-    );
+    ];
 
-    private static $many_many = array(
+    private static $many_many = [
         'Images' => Image::class
-    );
+    ];
 
-    private static $many_many_extraFields = array(
+    private static $many_many_extraFields = [
         'Images' => array('SortOrder' => 'Int')
-    );
+    ];
+
+    private static $owns = [
+        'Images'
+    ];
 
     /**
      * Return sorted images
@@ -99,7 +104,7 @@ class GalleryPage extends Page
 
         $fields->addFieldsToTab(
             'Root.Settings',
-            array(
+            [
                 NumericField::create("ImageWidth"),
                 NumericField::create("ImageHeight"),
                 DropdownField::create("ImageResizeType")
@@ -111,7 +116,7 @@ class GalleryPage extends Page
                 NumericField::create('ThumbnailsPerPage'),
                 TextField::create("PaddedImageBackground"),
                 CheckboxField::create('ShowSideBar')
-            )
+            ]
         );
 
         return $fields;

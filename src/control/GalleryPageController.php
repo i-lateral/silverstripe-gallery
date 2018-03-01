@@ -91,11 +91,11 @@ class GalleryPageController extends PageController
                 $images->add(ArrayData::create($image_data));
             }
             
-            $vars = array(
+            $vars = [
                 'Images' => $images,
                 'Width' => $this->ImageWidth,
                 'Height' => $this->ImageHeight
-            );
+            ];
 
             return $this->renderWith(
                 [

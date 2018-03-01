@@ -7,7 +7,7 @@ use ilateral\SilverStripe\Gallery\Model\GalleryPage;
 
 class GalleryImage extends DataExtension
 {
-    private static $belogs_many_many = array(
+    private static $belogs_many_many = [
         'Gallery'   => GalleryPage::class
-    );
+    ];
 }

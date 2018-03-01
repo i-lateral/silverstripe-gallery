@@ -13,7 +13,10 @@ class GalleryHubController extends PageController
         $list = $this->AllChildren();
         $limit = $this->ThumbnailsPerPage;
 
-        $pages = PaginatedList::create($list, $this->getRequest());
+        $pages = PaginatedList::create(
+            $list,
+            $this->getRequest()
+        );
         $pages->setpageLength($limit);
 
         return $pages;
