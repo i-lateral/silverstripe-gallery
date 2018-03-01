@@ -1,25 +1,36 @@
 {
   "name": "i-lateral/silverstripe-gallery",
-  "description": "A Silverstripe image gallery allowing multi image upload and defaults to using coffeescriper ad gallery",
-    "type": "silverstripe-module",
+  "description": "A Silverstripe image gallery allowing multi image upload and automatic generation of thumbnail gallery with popups",
+    "type": "silverstripe-vendormodule",
     "homepage": "http://github.com/i-lateral/silverstripe-gallery",
-    "keywords": ["silverstripe", "gallery"],
+    "keywords": [
+        "silverstripe",
+        "gallery",
+        "thumbnails",
+        "lightbox",
+        "modal"
+    ],
     "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Morven Lewis-Everley",
-            "email": "morven@i-lateral.com"
+            "email": "morven@ilateral.co.uk"
         }
     ],
     "support": {
         "issues": "http://github.com/i-lateral/silverstripe-gallery/issues"
     },
     "require": {
-        "silverstripe/framework": ">=3.1",
-        "silverstripe/cms": ">=3.1",
-        "bummzack/sortablefile":"1.*"
+        "silverstripe/cms": "~4.0"
     },
     "extra": {
-        "installer-name": "gallery"
+        "expose": [
+            "client/dist"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "ilateral\\SilverStripe\\Gallery\\": "src/"
+        }
     }
 }
