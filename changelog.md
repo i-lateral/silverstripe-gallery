@@ -26,3 +26,7 @@ Switch to stable dependencies
 ## 2.0.0
 
 * SilverStripe 4 version (based on 1.2.1)
+
+## 2.0.1
+
+* Minor update to fix namespacing in config

@@ -1,6 +1,6 @@
 ---
 Name: galleryconfig
 ---
-Image:
+SilverStripe\Assets\Image:
   extensions:
-    - GalleryImage
+    - ilateral\SilverStripe\Gallery\Extensions\GalleryImage
