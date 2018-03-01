@@ -14,7 +14,7 @@
 				<div class="unit size1of4 col-lg-2 col-md-3 col-xs-6 <% if $MultipleOf(4) %>lastUnit<% end_if %>">
 					<p>
 						<a href="$Link">
-							$SortedImages.First.CroppedImage(150,150)<br/>
+							$SortedImages.First.Pad(150,150)<br/>
 							$Title
 						</a>
 					</p>

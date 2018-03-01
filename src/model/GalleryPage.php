@@ -10,6 +10,7 @@ use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\AssetAdmin\Forms\UploadField;
+use ilateral\SilverStripe\Gallery\Control\GalleryPageController;
 
 /**
  * A single page that can display many images as thumbnails.
@@ -60,6 +61,10 @@ class GalleryPage extends Page
     private static $owns = [
         'Images'
     ];
+
+    public function getControllerName() {
+        return GalleryPageController::class;
+    }
 
     /**
      * Return sorted images

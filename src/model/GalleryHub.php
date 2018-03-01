@@ -2,9 +2,10 @@
 
 namespace ilateral\SilverStripe\Gallery\Model;
 
+use Page;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\CheckboxField;
-use Page;
+use ilateral\SilverStripe\Gallery\Control\GalleryHubController;
 
 /**
  * Generate a page that can display it's children as a grid of thumbnails
@@ -38,6 +39,10 @@ class GalleryHub extends Page
     private static $defaults = [
         "ThumbnailsPerPage" => 18
     ];
+
+    public function getControllerName() {
+        return GalleryHubController::class;
+    }
 
     public function getSettingsFields()
     {

@@ -2,10 +2,11 @@
 
 namespace ilateral\SilverStripe\Gallery\Control;
 
+use PageController;
+use SilverStripe\Assets\Image;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
 use SilverStripe\ORM\PaginatedList;
-use PageController;
 
 class GalleryPageController extends PageController
 {
@@ -49,13 +50,13 @@ class GalleryPageController extends PageController
 
         switch ($resize_type) {
             case 'crop':
-                $img = $image->CroppedImage($width,$height);
+                $img = $image->Fill($width,$height);
                 break;
             case 'pad':
-                $img = $image->PaddedImage($width,$height,$background);
+                $img = $image->Pad($width,$height,$background);
                 break;
             case 'ratio':
-                $img = $image->SetRatioSize($width,$height);
+                $img = $image->Fit($width,$height);
                 break;
         }
 
