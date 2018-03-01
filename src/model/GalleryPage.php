@@ -22,7 +22,7 @@ class GalleryPage extends Page
      */
     private static $description = 'Display a "gallery" of images';
 
-    private static $icon = "gallery/images/gallery.png";
+    private static $icon = "resources/i-lateral/silverstripe-gallery/client/dist/images/gallery.png";
 
     private static $table_name = "GalleryPage";
 

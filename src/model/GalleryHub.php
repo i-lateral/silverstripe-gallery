@@ -19,7 +19,7 @@ class GalleryHub extends Page
      */
     private static $description = 'Display child galleries as a thumbnail grid';
 
-    private static $icon = "gallery/images/gallery-hub.png";
+    private static $icon = "resources/i-lateral/silverstripe-gallery/client/dist/images/gallery-hub.png";
 
     private static $table_name = "GalleryHub";
 
