@@ -1,8 +1,8 @@
 # Silverstripe Image Gallery
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/i-lateral/silverstripe-gallery/badges/quality-score.png?b=1)](https://scrutinizer-ci.com/g/i-lateral/silverstripe-gallery/?branch=1)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/i-lateral/silverstripe-gallery/badges/quality-score.png?b=2)](https://scrutinizer-ci.com/g/i-lateral/silverstripe-gallery/?branch=2)
 
-[![Build Status](https://scrutinizer-ci.com/g/i-lateral/silverstripe-gallery/badges/build.png?b=1)](https://scrutinizer-ci.com/g/i-lateral/silverstripe-gallery/build-status/1)
+[![Build Status](https://scrutinizer-ci.com/g/i-lateral/silverstripe-gallery/badges/build.png?b=2)](https://scrutinizer-ci.com/g/i-lateral/silverstripe-gallery/build-status/2)
 
 Adds image galleries to your SilverStripe website.
 
