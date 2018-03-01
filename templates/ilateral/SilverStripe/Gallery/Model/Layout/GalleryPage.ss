@@ -1,7 +1,7 @@
-<% require css(gallery/node_modules/tingle.js/dist/tingle.min.css) %>
-<% require css(gallery/css/gallery.min.css) %>
-<% require javascript(gallery/node_modules/tingle.js/dist/tingle.min.js) %>
-<% require javascript(gallery/javascript/gallery.min.js) %>
+<% require css("i-lateral/silverstripe-gallery: node_modules/tingle.js/dist/tingle.min.css") %>
+<% require css("i-lateral/silverstripe-gallery: client/dist/css/gallery.min.css") %>
+<% require javascript("i-lateral/silverstripe-gallery: node_modules/tingle.js/dist/tingle.min.js") %>
+<% require javascript("i-lateral/silverstripe-gallery: client/dist/javascript/gallery.min.js) %>
 
 <% if $ShowSideBar && $Menu(2).exists %>
 	<% include SideBar %>
