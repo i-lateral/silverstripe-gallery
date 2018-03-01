@@ -2,6 +2,8 @@
 
 namespace ilateral\SilverStripe\Gallery\Model;
 
+use Page;
+use SilverStripe\Assets\Image;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\NumericField;
@@ -47,7 +49,7 @@ class GalleryPage extends Page
     );
 
     private static $many_many = array(
-        'Images' => 'Image'
+        'Images' => Image::class
     );
 
     private static $many_many_extraFields = array(
