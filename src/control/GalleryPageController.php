@@ -1,6 +1,13 @@
 <?php
 
-class GalleryPage_Controller extends Page_Controller
+namespace ilateral\SilverStripe\Gallery\Control;
+
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\View\ArrayData;
+use SilverStripe\ORM\PaginatedList;
+use PageController;
+
+class GalleryPageController extends PageController
 {
     public function init() {
         parent::init();

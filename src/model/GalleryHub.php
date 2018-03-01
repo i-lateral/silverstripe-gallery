@@ -1,5 +1,11 @@
 <?php
 
+namespace ilateral\SilverStripe\Gallery\Model;
+
+use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\CheckboxField;
+use Page;
+
 /**
  * Generate a page that can display it's children as a grid of thumbnails
  * 
@@ -14,6 +20,8 @@ class GalleryHub extends Page
     private static $description = 'Display child galleries as a thumbnail grid';
 
     private static $icon = "gallery/images/gallery-hub.png";
+
+    private static $table_name = "GalleryHub";
 
     /**
      * @var array

@@ -1,5 +1,11 @@
 <?php
-class GalleryHub_Controller extends Page_Controller
+
+namespace ilateral\SilverStripe\Gallery\Control;
+
+use SilverStripe\ORM\PaginatedList;
+use PageController;
+
+class GalleryHubController extends PageController
 {
 
     public function PaginatedChildren()

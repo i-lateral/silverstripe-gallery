@@ -1,5 +1,13 @@
 <?php
 
+namespace ilateral\SilverStripe\Gallery\Model;
+
+use SilverStripe\Forms\TextField;
+use SilverStripe\Control\Controller;
+use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\CheckboxField;
+
 /**
  * A single page that can display many images as thumbnails.
  * 
@@ -7,13 +15,14 @@
  */
 class GalleryPage extends Page
 {
-
     /**
      * @var string
      */
     private static $description = 'Display a "gallery" of images';
 
     private static $icon = "gallery/images/gallery.png";
+
+    private static $table_name = "GalleryPage";
 
     private static $db = array(
         "ImageWidth" => "Int",
@@ -48,7 +57,7 @@ class GalleryPage extends Page
     /**
      * Return sorted images
      *
-     * @return ArrayList
+     * @return SSList
      */
     public function SortedImages()
     {
@@ -73,7 +82,7 @@ class GalleryPage extends Page
             
             $fields->addFieldToTab(
                 "Root.Gallery",
-                SortableUploadField::create(
+                UploadField::create(
                     'Images',
                     $this->fieldLabel('Images')
                 )->setFolderName($upload_folder)
