@@ -97,7 +97,13 @@ class GalleryPageController extends PageController
                 'Height' => $this->ImageHeight
             );
 
-            return $this->renderWith('Gallery',$vars);
+            return $this->renderWith(
+                [
+                    'Gallery',
+                    'ilateral\SilverStripe\Gallery\Includes\Gallery'
+                ],
+                $vars
+            );
         } else {
             return "";
         }

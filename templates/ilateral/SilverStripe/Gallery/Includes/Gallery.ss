@@ -17,6 +17,6 @@
     </div>
 
     <% with $Images %>
-        <% include Pagination %>
+        <% include ilateral\SilverStripe\Gallery\Includes\Pagination %>
     <% end_with %>
 <% end_if %>
