@@ -31,3 +31,4 @@ Switch to stable dependencies
 
 * Add ability to customise hub thumbnail sizes
 * Add slightly nicer default html
+* Add ability to show/hide gallery and image titles
