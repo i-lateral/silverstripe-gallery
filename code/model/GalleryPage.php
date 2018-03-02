@@ -18,10 +18,10 @@ class GalleryPage extends Page
     private static $db = array(
         "ImageWidth" => "Int",
         "ImageHeight" => "Int",
-        "ImageResizeType" => "Enum(array('crop', 'pad', 'ratio'), 'ratio')",
+        "ImageResizeType" => "Enum(array('crop','pad','ratio','width','height'), 'ratio')",
         "ThumbnailWidth" => "Int",
         "ThumbnailHeight" => "Int",
-        "ThumbnailResizeType" => "Enum(array('crop', 'pad', 'ratio'), 'crop')",
+        "ThumbnailResizeType" => "Enum(array('crop','pad','ratio','width','height'), 'crop')",
         "ThumbnailsPerPage" => "Int",
         "PaddedImageBackground" => "Varchar",
         "ShowSideBar" => "Boolean"
