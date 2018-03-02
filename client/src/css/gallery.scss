@@ -1,7 +1,27 @@
 /* Thanks to W3Schools for this code:
 https://www.w3schools.com/howto/howto_css_modals.asp */
-.gallery-thumbnail {
-    cursor: pointer;
+
+.gallery-hub, .gallery-page {
+    .gallery-thumbnails {
+        figure {
+            -webkit-box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, .75);
+            -moz-box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, .75);
+            box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, .75);
+            text-align: center;
+
+            img {
+                width: 100%;
+                padding: 5px;
+            }
+            figcaption {
+                padding: 0 5px 5px 5px;
+            }
+        }
+    }
+
+    .gallery-thumbnail {
+        cursor: pointer;
+    }
 }
 .gallery-modal {
     .tingle-modal-box {

@@ -27,6 +27,16 @@ Switch to stable dependencies
 
 * Add ability to set width and height resize of images/thumbnails.
 
+## 1.3.0
+
+* Add ability to customise hub thumbnail sizes
+* Add slightly nicer default html
+* Add ability to show/hide gallery and image titles
+
+## 1.3.1
+
+* Minor code improvements
+
 ## 2.0.0
 
 * SilverStripe 4 version (based on 1.2.1)
@@ -38,3 +48,10 @@ Switch to stable dependencies
 ## 2.0.2
 
 * Add ability to set width and height resize of images/thumbnails.
+
+## 2.1.0
+
+* Add ability to customise hub thumbnail sizes
+* Add slightly nicer default html
+* Add ability to show/hide gallery and image titles
+* Minor code improvements

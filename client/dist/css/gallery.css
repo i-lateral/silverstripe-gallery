@@ -1,20 +1,26 @@
 /* Thanks to W3Schools for this code:
 https://www.w3schools.com/howto/howto_css_modals.asp */
-.gallery-thumbnail {
-  cursor: pointer;
-}
+.gallery-hub .gallery-thumbnails figure, .gallery-page .gallery-thumbnails figure {
+  -webkit-box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, 0.75);
+  text-align: center; }
+  .gallery-hub .gallery-thumbnails figure img, .gallery-page .gallery-thumbnails figure img {
+    width: 100%;
+    padding: 5px; }
+  .gallery-hub .gallery-thumbnails figure figcaption, .gallery-page .gallery-thumbnails figure figcaption {
+    padding: 0 5px 5px 5px; }
+
+.gallery-hub .gallery-thumbnail, .gallery-page .gallery-thumbnail {
+  cursor: pointer; }
 
 .gallery-modal .tingle-modal-box {
   background: transparent;
-  width: auto;
-}
+  width: auto; }
 
 .gallery-modal .tingle-modal-box__content {
   padding: 0;
-  text-align: center;
-}
+  text-align: center; }
 
 .gallery-modal .tingle-modal__close {
-  font-size: 3rem;
-}
-/*# sourceMappingURL=gallery.css.map */
+  font-size: 3rem; }

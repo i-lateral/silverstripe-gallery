@@ -8,7 +8,7 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
 use SilverStripe\ORM\PaginatedList;
 
-class GalleryPageController extends PageController
+class GalleryPageController extends GalleryHubController
 {
     public function init() {
         parent::init();
@@ -23,52 +23,6 @@ class GalleryPageController extends PageController
         $pages->setpageLength($limit);
 
         return $pages;
-    }
-
-    /**
-     * Generate an image based on the provided type
-     * (either )
-     *
-     * @param Image $image
-     * @param string $thumbnail generate a smaller image (based on thumbnail settings)
-     * @return void
-     */
-    protected function ScaledImage(Image $image, $thumbnail = false)
-    {
-        $img = false;
-        $background = $this->PaddedImageBackground;
-        
-        if ($thumbnail) {
-            $resize_type = $this->ThumbnailResizeType;
-            $width = $this->ThumbnailWidth;
-            $height = $this->ThumbnailHeight;
-        } else {
-            $resize_type = $this->ImageResizeType;
-            $width = $this->ImageWidth;
-            $height = $this->ImageHeight;
-        }
-
-        switch ($resize_type) {
-            case 'crop':
-                $img = $image->Fill($width,$height);
-                break;
-            case 'pad':
-                $img = $image->Pad($width,$height,$background);
-                break;
-            case 'ratio':
-                $img = $image->Fit($width,$height);
-                break;
-            case 'width':
-                $img = $image->ScaleWidth($width);
-                break;
-            case 'height':
-                $img = $image->ScaleHeight($height);
-                break;
-        }
-
-        $this->extend("augmentImageResize", $image, $thumbnail, $img);
-
-        return $img;
     }
 
     protected function GalleryImage(Image $image)

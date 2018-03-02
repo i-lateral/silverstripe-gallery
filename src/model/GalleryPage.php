@@ -17,7 +17,7 @@ use ilateral\SilverStripe\Gallery\Control\GalleryPageController;
  * 
  * @package gallery
  */
-class GalleryPage extends Page
+class GalleryPage extends GalleryHub
 {
     /**
      * @var string
@@ -31,22 +31,12 @@ class GalleryPage extends Page
     private static $db = [
         "ImageWidth" => "Int",
         "ImageHeight" => "Int",
-        "ImageResizeType" => "Enum(array('crop','pad','ratio','width','height'), 'ratio')",
-        "ThumbnailWidth" => "Int",
-        "ThumbnailHeight" => "Int",
-        "ThumbnailResizeType" => "Enum(array('crop','pad','ratio','width','height'), 'crop')",
-        "ThumbnailsPerPage" => "Int",
-        "PaddedImageBackground" => "Varchar",
-        "ShowSideBar" => "Boolean"
+        "ImageResizeType" => "Enum(array('crop','pad','ratio','width','height'), 'ratio')"
     ];
 
     private static $defaults = [
         "ImageWidth" => 950,
         "ImageHeight" => 500,
-        "ThumbnailWidth" => 150,
-        "ThumbnailHeight" => 150,
-        "ThumbnailsPerPage" => 18,
-        "PaddedImageBackground" => "ffffff",
         "ShowSideBar" => 1
     ];
 
@@ -113,14 +103,7 @@ class GalleryPage extends Page
                 NumericField::create("ImageWidth"),
                 NumericField::create("ImageHeight"),
                 DropdownField::create("ImageResizeType")
-                    ->setSource($this->dbObject("ImageResizeType")->enumValues()),
-                NumericField::create("ThumbnailWidth"),
-                NumericField::create("ThumbnailHeight"),
-                DropdownField::create("ThumbnailResizeType")
-                    ->setSource($this->dbObject("ThumbnailResizeType")->enumValues()),
-                NumericField::create('ThumbnailsPerPage'),
-                TextField::create("PaddedImageBackground"),
-                CheckboxField::create('ShowSideBar')
+                    ->setSource($this->dbObject("ImageResizeType")->enumValues())
             ]
         );
 
@@ -133,13 +116,8 @@ class GalleryPage extends Page
 
         // default settings (if not set)
         $defaults = $this->config()->defaults;
-
         $this->ImageWidth = ($this->ImageWidth) ? $this->ImageWidth : $defaults["ImageWidth"];
         $this->ImageHeight = ($this->ImageHeight) ? $this->ImageHeight : $defaults["ImageHeight"];
-        $this->ThumbnailWidth = ($this->ThumbnailWidth) ? $this->ThumbnailWidth : $defaults["ThumbnailWidth"];
-        $this->ThumbnailHeight = ($this->ThumbnailHeight) ? $this->ThumbnailHeight : $defaults["ThumbnailHeight"];
-        $this->ThumbnailsPerPage = ($this->ThumbnailsPerPage) ? $this->ThumbnailsPerPage : $defaults["ThumbnailsPerPage"];
-        $this->PaddedImageBackground = ($this->PaddedImageBackground) ? $this->PaddedImageBackground : $defaults["PaddedImageBackground"];
     }
 
 }
