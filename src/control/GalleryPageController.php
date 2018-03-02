@@ -58,7 +58,15 @@ class GalleryPageController extends PageController
             case 'ratio':
                 $img = $image->Fit($width,$height);
                 break;
+            case 'width':
+                $img = $image->ScaleWidth($width);
+                break;
+            case 'height':
+                $img = $image->ScaleHeight($height);
+                break;
         }
+
+        $this->extend("augmentImageResize", $image, $thumbnail, $img);
 
         return $img;
     }
