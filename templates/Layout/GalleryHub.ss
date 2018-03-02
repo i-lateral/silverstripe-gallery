@@ -1,3 +1,5 @@
+<% require css(gallery/css/gallery.min.css) %>
+
 <% if $ShowSideBar && $Menu(2).exists %>
 	<% include SideBar %>
 <% end_if %>
@@ -8,15 +10,23 @@
 		<div class="content">$Content</div>
 
 		<% if $PaginatedGalleries.exists %>
-			<div class="row line">
-				<% loop $PaginatedGalleries %>
-					<figure class="gallery-thumbnail unit size1of4 col-lg-2 col-md-3 col-xs-6 <% if $MultipleOf(4) %>lastUnit<% end_if %>">
-						<a href="$Link">
-							$GalleryThumbnail
-							<figcaption>$Title</figcaption>
-						</a>
-					</figure>
-				<% end_loop %>
+			<div class="gallery-thumbnails">
+				<div class="row line">
+					<% loop $PaginatedGalleries %>
+						<div class="unit size1of4 col-lg-2 col-md-3 col-xs-6 <% if $MultipleOf(4) %>lastUnit<% end_if %>">
+							<figure>
+								<a href="{$Link}" title="{$Title}">
+									<img
+										class="gallery-thumbnail img-fluid img-responsive"
+										src="{$GalleryThumbnail.Link}"
+										alt="{$GalleryThumbnail.Title}"
+									/>
+									<figcaption>$Title</figcaption>
+								</a>
+							</figure>
+						</div>
+					<% end_loop %>
+				</div>
 			</div>
 
 			<% with $PaginatedChildren %>
