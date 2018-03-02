@@ -24,6 +24,7 @@ class GalleryHub extends Page
 
     private static $db = array(
         "ShowSideBar" => "Boolean",
+        "ShowImageTitles" => "Boolean",
         "ThumbnailWidth" => "Int",
         "ThumbnailHeight" => "Int",
         "ThumbnailResizeType" => "Enum(array('crop','pad','ratio','width','height'), 'crop')",
@@ -46,13 +47,14 @@ class GalleryHub extends Page
         $fields->addFieldsToTab(
             "Root.Settings",
             [
+                CheckboxField::create('ShowSideBar'),
+                CheckboxField::create('ShowImageTitles'),
                 NumericField::create("ThumbnailWidth"),
                 NumericField::create("ThumbnailHeight"),
                 DropdownField::create("ThumbnailResizeType")
                     ->setSource($this->dbObject("ThumbnailResizeType")->enumValues()),
                 NumericField::create('ThumbnailsPerPage'),
-                TextField::create("PaddedImageBackground"),
-                CheckboxField::create('ShowSideBar')
+                TextField::create("PaddedImageBackground")
             ]
         );
 

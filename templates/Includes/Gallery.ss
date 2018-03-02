@@ -11,6 +11,9 @@
                                 alt="{$Title}"
                                 data-url="{$Up.GalleryImage.Link}"
                             />
+                            <% if $Top.ShowImageTitles %>
+                                <figcaption>$Title</figcaption>
+                            <% end_if %>
                         </figure>
                     </div>
                 <% end_with %>

@@ -21,7 +21,9 @@
 										src="{$GalleryThumbnail.Link}"
 										alt="{$GalleryThumbnail.Title}"
 									/>
-									<figcaption>$Title</figcaption>
+									<% if $Top.ShowImageTitles %>
+										<figcaption>$Title</figcaption>
+									<% end_if %>
 								</a>
 							</figure>
 						</div>
