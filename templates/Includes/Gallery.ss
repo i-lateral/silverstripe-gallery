@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <% with $Images %>
+    <% with $PaginatedImages %>
         <% include Pagination %>
     <% end_with %>
 <% end_if %>

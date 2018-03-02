@@ -36,3 +36,7 @@ Switch to stable dependencies
 ## 1.3.1
 
 * Minor code improvements
+
+## 1.3.2
+
+* Fix pagination issues
