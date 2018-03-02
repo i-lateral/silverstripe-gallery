@@ -3,27 +3,25 @@
 <% end_if %>
 
 <div class="content-container unit <% if $ShowSideBar && $Menu(2).exists %>col-md-9 size3of4 lastUnit<% end_if %>">
-	<article>
+	<article class="gallery-hub">
 		<h1>$Title</h1>
 		<div class="content">$Content</div>
-	</article>
 
-	<% if $PaginatedChildren.exists %>
-		<div class="row line">
-			<% loop $PaginatedChildren %>
-				<div class="unit size1of4 col-lg-2 col-md-3 col-xs-6 <% if $MultipleOf(4) %>lastUnit<% end_if %>">
-					<p>
+		<% if $PaginatedGalleries.exists %>
+			<div class="row line">
+				<% loop $PaginatedGalleries %>
+					<figure class="gallery-thumbnail unit size1of4 col-lg-2 col-md-3 col-xs-6 <% if $MultipleOf(4) %>lastUnit<% end_if %>">
 						<a href="$Link">
-							$SortedImages.First.CroppedImage(150,150)<br/>
-							$Title
+							$GalleryThumbnail
+							<figcaption>$Title</figcaption>
 						</a>
-					</p>
-				</div>
-			<% end_loop %>
-		</div>
+					</figure>
+				<% end_loop %>
+			</div>
 
-        <% with $PaginatedChildren %>
-            <% include Pagination %>
-        <% end_with %>
-	<% end_if %>
+			<% with $PaginatedChildren %>
+				<% include Pagination %>
+			<% end_with %>
+		<% end_if %>
+	</article>
 </div>

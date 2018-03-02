@@ -1,6 +1,6 @@
 <?php
 
-class GalleryPage_Controller extends Page_Controller
+class GalleryPage_Controller extends GalleryHub_Controller
 {
     public function init() {
         parent::init();
@@ -15,52 +15,6 @@ class GalleryPage_Controller extends Page_Controller
         $pages->setpageLength($limit);
 
         return $pages;
-    }
-
-    /**
-     * Generate an image based on the provided type
-     * (either )
-     *
-     * @param Image $image
-     * @param string $thumbnail generate a smaller image (based on thumbnail settings)
-     * @return void
-     */
-    protected function ScaledImage(Image $image, $thumbnail = false)
-    {
-        $img = false;
-        $background = $this->PaddedImageBackground;
-        
-        if ($thumbnail) {
-            $resize_type = $this->ThumbnailResizeType;
-            $width = $this->ThumbnailWidth;
-            $height = $this->ThumbnailHeight;
-        } else {
-            $resize_type = $this->ImageResizeType;
-            $width = $this->ImageWidth;
-            $height = $this->ImageHeight;
-        }
-
-        switch ($resize_type) {
-            case 'crop':
-                $img = $image->CroppedImage($width,$height);
-                break;
-            case 'pad':
-                $img = $image->PaddedImage($width,$height,$background);
-                break;
-            case 'ratio':
-                $img = $image->SetRatioSize($width,$height);
-                break;
-            case 'width':
-                $img = $image->ScaleWidth($width);
-                break;
-            case 'height':
-                $img = $image->ScaleHeight($height);
-                break;
-        }
-
-        $this->extend("augmentImageResize", $image, $thumbnail, $img);
-
-        return $img;
     }
 
     protected function GalleryImage(Image $image)

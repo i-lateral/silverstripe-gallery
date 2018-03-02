@@ -26,3 +26,8 @@ Switch to stable dependencies
 ## 1.2.2
 
 * Add ability to set width and height resize of images/thumbnails.
+
+## 1.3.0
+
+* Add ability to customise hub thumbnail sizes
+* Add slightly nicer default html
