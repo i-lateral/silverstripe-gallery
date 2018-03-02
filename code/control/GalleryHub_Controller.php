@@ -45,7 +45,7 @@ class GalleryHub_Controller extends Page_Controller
         $img = false;
         $background = $this->PaddedImageBackground;
         
-        if ($thumbnail) {
+        if ($thumbnail == true) {
             $resize_type = $this->ThumbnailResizeType;
             $width = $this->ThumbnailWidth;
             $height = $this->ThumbnailHeight;
@@ -57,13 +57,13 @@ class GalleryHub_Controller extends Page_Controller
 
         switch ($resize_type) {
             case 'crop':
-                $img = $image->CroppedImage($width,$height);
+                $img = $image->Fill($width,$height);
                 break;
             case 'pad':
-                $img = $image->PaddedImage($width,$height,$background);
+                $img = $image->Pad($width,$height,$background);
                 break;
             case 'ratio':
-                $img = $image->SetRatioSize($width,$height);
+                $img = $image->Fit($width,$height);
                 break;
             case 'width':
                 $img = $image->ScaleWidth($width);
