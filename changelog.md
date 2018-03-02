@@ -37,6 +37,10 @@ Switch to stable dependencies
 
 * Minor code improvements
 
+## 1.3.2
+
+* Fix pagination issues
+
 ## 2.0.0
 
 * SilverStripe 4 version (based on 1.2.1)
@@ -55,3 +59,7 @@ Switch to stable dependencies
 * Add slightly nicer default html
 * Add ability to show/hide gallery and image titles
 * Minor code improvements
+
+## 2.1.1
+
+* Fix pagination issues

@@ -31,7 +31,7 @@
 				</div>
 			</div>
 
-			<% with $PaginatedChildren %>
+			<% with $PaginatedGalleries %>
 				<% include Pagination %>
 			<% end_with %>
 		<% end_if %>

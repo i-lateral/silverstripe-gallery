@@ -47,6 +47,7 @@ class GalleryPageController extends GalleryHubController
 
             // Create a list of images with generated gallery image and thumbnail
             $images = ArrayList::create();
+            $pages = $this->PaginatedImages();
             foreach ($this->PaginatedImages() as $image) {
                 $image_data = $image->toMap();
                 $image_data["GalleryImage"] = $this->GalleryImage($image);
@@ -55,6 +56,7 @@ class GalleryPageController extends GalleryHubController
             }
             
             $vars = [
+                'PaginatedImages' => $pages,
                 'Images' => $images,
                 'Width' => $this->ImageWidth,
                 'Height' => $this->ImageHeight
