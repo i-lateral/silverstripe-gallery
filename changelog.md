@@ -63,3 +63,7 @@ Switch to stable dependencies
 ## 2.1.1
 
 * Fix pagination issues
+
+## 2.1.2
+
+* Fix scrutinizer support
