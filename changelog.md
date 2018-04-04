@@ -67,3 +67,8 @@ Switch to stable dependencies
 ## 2.1.2
 
 * Fix scrutinizer support
+
+## 2.1.3
+
+* Add fix for Gallery Hub pagination include
+* Force default thumbnail cropping
