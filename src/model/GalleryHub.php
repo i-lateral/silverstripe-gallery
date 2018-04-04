@@ -47,6 +47,7 @@ class GalleryHub extends Page
         "ThumbnailWidth" => 150,
         "ThumbnailHeight" => 150,
         "ThumbnailsPerPage" => 18,
+        "ThumbnailResizeType" => 'crop',
         "PaddedImageBackground" => "ffffff"
     ];
 
