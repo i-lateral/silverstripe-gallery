@@ -32,7 +32,7 @@
 			</div>
 
 			<% with $PaginatedGalleries %>
-				<% include Pagination %>
+				<% include ilateral\SilverStripe\Gallery\Includes\Pagination %>
 			<% end_with %>
 		<% end_if %>
 	</article>
