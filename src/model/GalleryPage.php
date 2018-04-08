@@ -37,6 +37,7 @@ class GalleryPage extends GalleryHub
     private static $defaults = [
         "ImageWidth" => 950,
         "ImageHeight" => 500,
+        "ImageResizeType" => 'ratio',
         "ShowSideBar" => 1
     ];
 
@@ -45,7 +46,7 @@ class GalleryPage extends GalleryHub
     ];
 
     private static $many_many_extraFields = [
-        'Images' => array('SortOrder' => 'Int')
+        'Images' => ['SortOrder' => 'Int']
     ];
 
     private static $owns = [
