@@ -9,7 +9,7 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\CheckboxField;
-use SilverStripe\AssetAdmin\Forms\UploadField;
+use Bummzack\SortableFile\Forms\SortableUploadField;
 use ilateral\SilverStripe\Gallery\Control\GalleryPageController;
 
 /**
@@ -37,6 +37,7 @@ class GalleryPage extends GalleryHub
     private static $defaults = [
         "ImageWidth" => 950,
         "ImageHeight" => 500,
+        "ImageResizeType" => 'ratio',
         "ShowSideBar" => 1
     ];
 
@@ -45,7 +46,7 @@ class GalleryPage extends GalleryHub
     ];
 
     private static $many_many_extraFields = [
-        'Images' => array('SortOrder' => 'Int')
+        'Images' => ['SortOrder' => 'Int']
     ];
 
     private static $owns = [
@@ -84,7 +85,7 @@ class GalleryPage extends GalleryHub
             
             $fields->addFieldToTab(
                 "Root.Gallery",
-                UploadField::create(
+                SortableUploadField::create(
                     'Images',
                     $this->fieldLabel('Images')
                 )->setFolderName($upload_folder)
