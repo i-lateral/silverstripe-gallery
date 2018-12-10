@@ -121,8 +121,8 @@ class GalleryHub extends Page
 
         // default settings (if not set)
         $defaults = $this->config()->defaults;
-        $this->ThumbnailWidth = ($this->getThumbWidth()) ? $this->ThumbnailWidth : $defaults["ThumbnailWidth"];
-        $this->ThumbnailHeight = ($this->getThumbHeight()) ? $this->ThumbnailHeight : $defaults["ThumbnailHeight"];
+        $this->ThumbnailWidth = ($this->getThumbWidth()) ? $this->getThumbWidth() : $defaults["ThumbnailWidth"];
+        $this->ThumbnailHeight = ($this->getThumbHeight()) ? $this->getThumbHeight() : $defaults["ThumbnailHeight"];
         $this->ThumbnailsPerPage = ($this->ThumbnailsPerPage) ? $this->ThumbnailsPerPage : $defaults["ThumbnailsPerPage"];
         $this->PaddedImageBackground = ($this->PaddedImageBackground) ? $this->PaddedImageBackground : $defaults["PaddedImageBackground"];
     }
