@@ -79,6 +79,23 @@ class GalleryHub extends Page
         return GalleryHubController::class;
     }
 
+    public function getCMSFields()
+    {
+        $fields = parent::getCMSFields();
+
+        $fields->removeByName([
+            "ShowSideBar",
+            "ShowImageTitles",
+            "ThumbnailWidth",
+            "ThumbnailHeight",
+            "ThumbnailResizeType",
+            "ThumbnailsPerPage",
+            "PaddedImageBackground"
+        ]);
+
+        return $fields;
+    }
+
     public function getSettingsFields()
     {
         $fields = parent::getSettingsFields();
