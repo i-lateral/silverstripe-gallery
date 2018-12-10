@@ -95,15 +95,14 @@ class GalleryPage extends GalleryHub
     public function getCMSFields()
     {
         $self =& $this;
-        $fields = parent::getCMSFields();
-
-        $fields->removeByName([
-            "ImageWidth",
-            "ImageHeight",
-            "ImageResizeType"
-        ]);
 
         $this->beforeUpdateCMSFields(function ($fields) use ($self) {
+            $fields->removeByName([
+                "ImageWidth",
+                "ImageHeight",
+                "ImageResizeType"
+            ]);
+
             if (!$self->canEdit()) {
                 return;
             }
@@ -124,7 +123,7 @@ class GalleryPage extends GalleryHub
             );
         });
             
-        return $fields;
+        return parent::getCMSFields();
     }
 
     public function getSettingsFields() {
