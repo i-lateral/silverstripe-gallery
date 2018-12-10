@@ -7,6 +7,8 @@ use SilverStripe\Assets\Image;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
 use SilverStripe\ORM\PaginatedList;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\ORM\FieldType\DBField;
 
 class GalleryPageController extends GalleryHubController
 {
@@ -72,5 +74,38 @@ class GalleryPageController extends GalleryHubController
         } else {
             return "";
         }
+    }
+
+    /**
+     * Using $UserDefinedForm in the Content area of the page shows
+     * where the form should be rendered into. If it does not exist
+     * then default back to $Form.
+     *
+     * @return array
+     */
+    public function index(HTTPRequest $request = null)
+    {
+        $gallery = $this->Gallery();
+        if ($this->Content && $gallery) {
+            $hasLocation = stristr($this->Content, '$Gallery');
+            if ($hasLocation) {
+                /** @see Requirements_Backend::escapeReplacement */
+                $galleryEscapedForRegex = addcslashes($gallery->forTemplate(), '\\$');
+                $content = preg_replace(
+                    '/(<p[^>]*>)?\\$Gallery(<\\/p>)?/i',
+                    $galleryEscapedForRegex,
+                    $this->Content
+                );
+                return [
+                    'Content' => DBField::create_field('HTMLText', $content),
+                    'Gallery' => ''
+                ];
+            }
+        }
+
+        return [
+            'Content' => DBField::create_field('HTMLText', $this->Content),
+            'Gallery' => $this->Gallery()
+        ];
     }
 }
