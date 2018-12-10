@@ -61,3 +61,19 @@ Resize options are as follows:
 * crop: Crop image to exact size
 * pad: Pad image to size and add whitespace
 * ratio: Perform a ratio resize of images
+
+#### Forcing the widths and heights ####
+
+If you want all galleries to be restriced to set sizes, you can set some config variables.
+Setting these configs will remove the relevent fields from the CMS.
+
+```
+ilateral\SilverStripe\Gallery\Model\GalleryHub:
+  force_thumbnail_width: 350
+  force_thumbnail_height: 350
+  force_thumbnail_resize_type: crop
+ilateral\SilverStripe\Gallery\Model\GalleryPage:
+  force_image_width: 1200
+  force_image_height: 600
+  force_image_resize_type: ratio
+```

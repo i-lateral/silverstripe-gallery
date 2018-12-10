@@ -58,8 +58,8 @@ class GalleryPageController extends GalleryHubController
             $vars = [
                 'PaginatedImages' => $pages,
                 'Images' => $images,
-                'Width' => $this->ImageWidth,
-                'Height' => $this->ImageHeight
+                'Width' => $this->getFullWidth(),
+                'Height' => $this->getFullHeight()
             ];
 
             return $this->renderWith(

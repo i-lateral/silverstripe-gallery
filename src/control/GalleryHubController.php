@@ -53,13 +53,13 @@ class GalleryHubController extends PageController
         $background = $this->PaddedImageBackground;
         
         if ($thumbnail == true) {
-            $resize_type = $this->ThumbnailResizeType;
-            $width = $this->ThumbnailWidth;
-            $height = $this->ThumbnailHeight;
+            $resize_type = $this->getThumbResize();
+            $width = $this->getThumbWidth();
+            $height = $this->getThumbHeight();
         } else {
-            $resize_type = $this->ImageResizeType;
-            $width = $this->ImageWidth;
-            $height = $this->ImageHeight;
+            $resize_type = $this->getFullResize();
+            $width = $this->getFullWidth();
+            $height = $this->getFullHeight();
         }
 
         switch ($resize_type) {

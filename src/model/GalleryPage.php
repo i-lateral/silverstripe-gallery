@@ -20,6 +20,31 @@ use ilateral\SilverStripe\Gallery\Control\GalleryPageController;
 class GalleryPage extends GalleryHub
 {
     /**
+     * sets the width to force full images to
+     * 
+     * @var int
+     * @config
+     */
+    private static $force_image_width = null;
+
+    /**
+     * sets the height to force full images to
+     *
+     * @var int
+     * @config
+     */
+    private static $force_image_height = null;
+
+    /**
+     * forces the resize type to a fixed type
+     * options: crop, pad, ratio, width, height
+     * 
+     * @var string
+     * @config
+     */
+    private static $force_image_resize_type = null;
+
+    /**
      * @var string
      */
     private static $description = 'Display a "gallery" of images';
@@ -97,15 +122,26 @@ class GalleryPage extends GalleryHub
 
     public function getSettingsFields() {
         $fields = parent::getSettingsFields();
+        $fwidth = $this->config()->get('force_image_width');
+        $fheight = $this->config()->get('force_image_height');
+        $fresize = $this->config()->get('force_image_resize_type');
+
+        $new_fields = [];
+
+        if ($fwidth == null) {
+            $new_fields[] = NumericField::create("ImageWidth");
+        }
+        if ($fheight == null) {
+            $new_fields[] = NumericField::create("ImageHeight");
+        }
+        if ($fresize == null) {
+            $new_fields[] = DropdownField::create("ImageResizeType")
+                ->setSource($this->dbObject("ImageResizeType")->enumValues());
+        }
 
         $fields->addFieldsToTab(
             'Root.Settings',
-            [
-                NumericField::create("ImageWidth"),
-                NumericField::create("ImageHeight"),
-                DropdownField::create("ImageResizeType")
-                    ->setSource($this->dbObject("ImageResizeType")->enumValues())
-            ]
+            $new_fields
         );
 
         return $fields;
@@ -117,8 +153,38 @@ class GalleryPage extends GalleryHub
 
         // default settings (if not set)
         $defaults = $this->config()->defaults;
-        $this->ImageWidth = ($this->ImageWidth) ? $this->ImageWidth : $defaults["ImageWidth"];
-        $this->ImageHeight = ($this->ImageHeight) ? $this->ImageHeight : $defaults["ImageHeight"];
+        $this->ImageWidth = ($this->getFullWidth()) ? $this->getFullWidth() : $defaults["ImageWidth"];
+        $this->ImageHeight = ($this->getFullHeight()) ? $this->getFullHeight() : $defaults["ImageHeight"];
+    }
+
+    public function getFullWidth()
+    {
+        $forced = $this->config()->get('force_image_width');
+        if ($forced != null) {
+            return $forced;
+        }
+
+        return $this->ImageWidth;
+    }
+
+    public function getFullHeight()
+    {
+        $forced = $this->config()->get('force_image_height');
+        if ($forced != null) {
+            return $forced;
+        }
+
+        return $this->ImageHeight;
+    }
+
+    public function getFullResize()
+    {
+        $forced = $this->config()->get('force_image_resize_type');
+        if ($forced != null) {
+            return $forced;
+        }
+
+        return $this->ImageResizeType;
     }
 
 }
