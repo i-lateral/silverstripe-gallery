@@ -72,3 +72,8 @@ Switch to stable dependencies
 
 * Add fix for Gallery Hub pagination include
 * Force default thumbnail cropping
+
+## 2.2.0
+
+* added config for forcing gallery sizes.
+* added ability to render the gallery inside the content field.
