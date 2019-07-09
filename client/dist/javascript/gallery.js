@@ -5,7 +5,7 @@ for (var i = 0; i < thumbnails.length; i++) {
 
     element.addEventListener("click", function(event) {
         // get URL of main image
-        var url = event.target.dataset.url;
+        var url = event.closest('span').dataset.url;
         var img = document.createElement("IMG"); 
         img.src = url;
 

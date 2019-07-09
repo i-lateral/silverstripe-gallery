@@ -5,12 +5,14 @@
                 <% with $GalleryThumbnail %>
                     <div class="col-lg-2 col-md-3 col-6 unit size1of5 <% if $MultipleOf(5) %>lastUnit<% end_if %>">
                         <figure>
-                            <img
-                                class="gallery-thumbnail img-fluid img-responsive"
-                                src="{$Link}"
-                                alt="{$Title}"
-                                data-url="{$Up.GalleryImage.Link}"
-                            />
+                            <span data-url="{$Up.GalleryImage.Link}">
+                                <img
+                                    class="gallery-thumbnail img-fluid img-responsive"
+                                    src="{$Link}"
+                                    alt="{$Title}"
+                                    
+                                />
+                            </span>
                             <% if $Top.ShowImageTitles %>
                                 <figcaption>$Title</figcaption>
                             <% end_if %>
