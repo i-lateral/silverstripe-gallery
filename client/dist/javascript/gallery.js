@@ -13,7 +13,13 @@ for (var i = 0; i < thumbnails.length; i++) {
         var modal = new tingle.modal({
             closeMethods: ['overlay', 'button', 'escape'],
             closeLabel: "Close",
-            cssClass: ['gallery-modal']
+            cssClass: ['gallery-modal'],
+            onOpen: function() {
+                modal.checkOverflow()	
+            },
+            onClose: function() {
+                modal.destroy();
+            }
         });
 
         // set content
