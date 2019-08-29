@@ -5,9 +5,9 @@ for (var i = 0; i < thumbnails.length; i++) {
 
     element.addEventListener("click", function(event) {
         // get URL of main image
-        var url = $(this).closest('span').attr('data-url');
+        var url = this.parentElement.getAttribute('data-url');
         var img = document.createElement("IMG"); 
-        img.src = url;
+        img.setAttribute('src', url);
 
         // instanciate new modal
         var modal = new tingle.modal({
