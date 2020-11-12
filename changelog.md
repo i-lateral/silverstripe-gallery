@@ -77,3 +77,7 @@ Switch to stable dependencies
 
 * added config for forcing gallery sizes.
 * added ability to render the gallery inside the content field.
+
+## 2.2.1
+
+* added legacy yml
