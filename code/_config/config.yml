@@ -1,0 +1,6 @@
+---
+Name: galleryconfig
+---
+Image:
+  extensions:
+    - GalleryImage
