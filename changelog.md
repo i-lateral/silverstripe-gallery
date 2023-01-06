@@ -80,4 +80,20 @@ Switch to stable dependencies
 
 ## 2.2.1
 
+* added support for responsive images
+
+## 2.2.2
+
+* minor JS fixes
+
+## 2.2.3
+
+* update to newer version of tingle modal
+
+## 2.2.4
+
+* remove jquery requirement
+
+## 2.2.5
+
 * added legacy yml
