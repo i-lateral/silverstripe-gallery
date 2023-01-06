@@ -97,3 +97,7 @@ Switch to stable dependencies
 ## 2.2.5
 
 * added legacy yml
+
+## 2.2.6
+
+* Use Bootstrap 4 col classes
