@@ -2,16 +2,30 @@
 
 namespace ilateral\SilverStripe\Gallery\Control;
 
-use PageController;
 use SilverStripe\Assets\Image;
+use SilverStripe\Dev\Deprecation;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
 use SilverStripe\ORM\PaginatedList;
-use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 class GalleryPageController extends GalleryHubController
 {
+    private static $casting = [
+        'Gallery' => 'HTMLText'
+    ];
+
+    protected function GalleryImage(Image $image)
+    {
+        return $this->ScaledImage($image);
+    }
+
+    protected function GalleryThumbnail(Image $image)
+    {
+        return $this->ScaledImage($image, true);
+    }
+
     public function init() {
         parent::init();
     }
@@ -27,23 +41,41 @@ class GalleryPageController extends GalleryHubController
         return $pages;
     }
 
-    protected function GalleryImage(Image $image)
+    /**
+     * Overwrite content and render gallery
+     * embeded into content area
+     *
+     * @return DBHTMLText
+     */
+    public function getContent(): DBHTMLText
     {
-        return $this->ScaledImage($image);
-    }
+        $gallery = $this->getRenderedGallery();
+        $embeded = $this->isGalleryEmbeded();
+        $content = $this->dbObject('Content');
 
-    protected function GalleryThumbnail(Image $image)
-    {
-        return $this->ScaledImage($image, true);
+        if ($embeded && !empty($gallery)) {
+            /** @see Requirements_Backend::escapeReplacement */
+            $galleryEscapedForRegex = addcslashes($gallery, '\\$');
+            $content = preg_replace(
+                '/(<p[^>]*>)?\\$Gallery(<\\/p>)?/i',
+                $galleryEscapedForRegex,
+                $content
+            );
+        }
+
+        return DBField::create_field(
+            'HTMLText',
+            $content
+        );
     }
 
     /**
-     * Generate an image gallery from the Gallery template, if no images are
-     * available, then return an empty string.
+     * Render an image gallery from the Gallery template,
+     * if no images are available, then return an empty string.
      *
      * @return string
      */
-    public function Gallery()
+    protected function getRenderedGallery(): string
     {
         if ($this->Images()->exists()) {
 
@@ -77,35 +109,24 @@ class GalleryPageController extends GalleryHubController
     }
 
     /**
-     * Using $UserDefinedForm in the Content area of the page shows
-     * where the form should be rendered into. If it does not exist
-     * then default back to $Form.
+     * Generate an image gallery from the Gallery template, if no images are
+     * available, then return an empty string.
      *
-     * @return array
+     * @return string
      */
-    public function index(HTTPRequest $request = null)
+    public function getGallery(): string
     {
-        $gallery = $this->Gallery();
-        if ($this->Content && $gallery) {
-            $hasLocation = stristr($this->Content, '$Gallery');
-            if ($hasLocation) {
-                /** @see Requirements_Backend::escapeReplacement */
-                $galleryEscapedForRegex = addcslashes($gallery->forTemplate(), '\\$');
-                $content = preg_replace(
-                    '/(<p[^>]*>)?\\$Gallery(<\\/p>)?/i',
-                    $galleryEscapedForRegex,
-                    $this->Content
-                );
-                return [
-                    'Content' => DBField::create_field('HTMLText', $content),
-                    'Gallery' => ''
-                ];
-            }
-        }
+        $embeded = $this->isGalleryEmbeded();
 
-        return [
-            'Content' => DBField::create_field('HTMLText', $this->Content),
-            'Gallery' => $this->Gallery()
-        ];
+        if ($embeded === false && $this->Images()->exists()) {
+            return $this->getRenderedGallery();
+        } else {
+            return "";
+        }
+    }
+
+    public function Gallery()
+    {
+        return $this->getGallery();
     }
 }

@@ -101,3 +101,7 @@ Switch to stable dependencies
 ## 2.2.6
 
 * Use Bootstrap 4 col classes
+
+## 2.2.7
+
+* Remove reliance on using action method on controller to render gallery

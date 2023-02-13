@@ -7,8 +7,9 @@ use SilverStripe\Assets\Image;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\NumericField;
-use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use Bummzack\SortableFile\Forms\SortableUploadField;
 use ilateral\SilverStripe\Gallery\Control\GalleryPageController;
 
@@ -80,6 +81,17 @@ class GalleryPage extends GalleryHub
 
     public function getControllerName() {
         return GalleryPageController::class;
+    }
+
+    /**
+     * Is there a gallery embeded in the content area
+     * rather than allowing it to render seperartly
+     * 
+     * @return bool
+     */
+    public function isGalleryEmbeded(): bool
+    {
+        return stristr($this->Content, '$Gallery');
     }
 
     /**
