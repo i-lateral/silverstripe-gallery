@@ -105,3 +105,8 @@ Switch to stable dependencies
 ## 2.2.7
 
 * Remove reliance on using action method on controller to render gallery
+
+## 3.0.0
+
+* Allow tracking of galleries as seperate objects
+* Allow embeding of gallery objects in content areas
