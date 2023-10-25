@@ -41,12 +41,9 @@ class GalleryHub extends Page
      */
     private static $force_thumbnail_resize_type = null;
 
-    /**
-     * @var string
-     */
     private static $description = 'Display child galleries as a thumbnail grid';
 
-    private static $icon = "resources/i-lateral/silverstripe-gallery/client/dist/images/gallery-hub.png";
+    private static $icon_class = 'font-icon-p-gallery';
 
     private static $table_name = "GalleryHub";
 

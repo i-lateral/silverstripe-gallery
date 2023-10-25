@@ -35,7 +35,7 @@ class GalleryPage extends GalleryHub
      * @config
      */
     private static $force_image_height = null;
-
+    
     /**
      * forces the resize type to a fixed type
      * options: crop, pad, ratio, width, height
@@ -45,12 +45,9 @@ class GalleryPage extends GalleryHub
      */
     private static $force_image_resize_type = null;
 
-    /**
-     * @var string
-     */
     private static $description = 'Display a "gallery" of images';
 
-    private static $icon = "resources/i-lateral/silverstripe-gallery/client/dist/images/gallery.png";
+    private static $icon_class = 'font-icon-p-gallery-alt';
 
     private static $table_name = "GalleryPage";
 
