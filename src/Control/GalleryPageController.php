@@ -2,43 +2,17 @@
 
 namespace ilateral\SilverStripe\Gallery\Control;
 
-use SilverStripe\Assets\Image;
 use SilverStripe\Dev\Deprecation;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\View\ArrayData;
-use SilverStripe\ORM\PaginatedList;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 
 class GalleryPageController extends GalleryHubController
 {
-    private static $casting = [
-        'Gallery' => 'HTMLText'
-    ];
-
-    protected function GalleryImage(Image $image)
-    {
-        return $this->ScaledImage($image);
-    }
-
-    protected function GalleryThumbnail(Image $image)
-    {
-        return $this->ScaledImage($image, true);
-    }
-
-    public function init() {
-        parent::init();
-    }
-
     public function PaginatedImages()
     {
-        $list = $this->SortedImages();
-        $limit = $this->ThumbnailsPerPage;
-
-        $pages = PaginatedList::create($list, $this->getRequest());
-        $pages->setpageLength($limit);
-
-        return $pages;
+        return $this
+            ->Gallery()
+            ->PaginatedImages();
     }
 
     /**
@@ -49,7 +23,7 @@ class GalleryPageController extends GalleryHubController
      */
     public function getContent(): DBHTMLText
     {
-        $gallery = $this->getRenderedGallery();
+        $gallery = $this->Gallery()->forTemplate();
         $embeded = $this->isGalleryEmbeded();
         $content = $this->dbObject('Content');
 
@@ -72,61 +46,15 @@ class GalleryPageController extends GalleryHubController
     /**
      * Render an image gallery from the Gallery template,
      * if no images are available, then return an empty string.
+     * 
+     * Depreciated method, can now call a gallery directly
+     * inside templates
      *
      * @return string
      */
     protected function getRenderedGallery(): string
     {
-        if ($this->Images()->exists()) {
-
-            // Create a list of images with generated gallery image and thumbnail
-            $images = ArrayList::create();
-            $pages = $this->PaginatedImages();
-            foreach ($this->PaginatedImages() as $image) {
-                $image_data = $image->toMap();
-                $image_data["GalleryImage"] = $this->GalleryImage($image);
-                $image_data["GalleryThumbnail"] = $this->GalleryThumbnail($image);
-                $images->add(ArrayData::create($image_data));
-            }
-            
-            $vars = [
-                'PaginatedImages' => $pages,
-                'Images' => $images,
-                'Width' => $this->getFullWidth(),
-                'Height' => $this->getFullHeight()
-            ];
-
-            return $this->renderWith(
-                [
-                    'Gallery',
-                    'ilateral\SilverStripe\Gallery\Includes\Gallery'
-                ],
-                $vars
-            );
-        } else {
-            return "";
-        }
-    }
-
-    /**
-     * Generate an image gallery from the Gallery template, if no images are
-     * available, then return an empty string.
-     *
-     * @return string
-     */
-    public function getGallery(): string
-    {
-        $embeded = $this->isGalleryEmbeded();
-
-        if ($embeded === false && $this->Images()->exists()) {
-            return $this->getRenderedGallery();
-        } else {
-            return "";
-        }
-    }
-
-    public function Gallery()
-    {
-        return $this->getGallery();
+        Deprecation::notice('3.0');
+        return $this->Gallery()->forTemplate();
     }
 }

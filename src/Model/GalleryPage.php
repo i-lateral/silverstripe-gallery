@@ -2,49 +2,25 @@
 
 namespace ilateral\SilverStripe\Gallery\Model;
 
-use Page;
-use SilverStripe\Assets\Image;
-use SilverStripe\Forms\TextField;
-use SilverStripe\Control\Controller;
+use SilverStripe\Dev\Deprecation;
 use SilverStripe\Forms\NumericField;
-use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
-use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverShop\HasOneField\HasOneButtonField;
 use Bummzack\SortableFile\Forms\SortableUploadField;
 use ilateral\SilverStripe\Gallery\Control\GalleryPageController;
+use SilverShop\HasOneField\GridFieldHasOneUnlinkButton;
 
 /**
  * A single page that can display many images as thumbnails.
  * 
- * @package gallery
+ * @property int ImageWidth
+ * @property int ImageHeight
+ * @property string ImageResizeType
+ * 
+ * @method Gallery Gallery
  */
 class GalleryPage extends GalleryHub
 {
-    /**
-     * sets the width to force full images to
-     * 
-     * @var int
-     * @config
-     */
-    private static $force_image_width = null;
-
-    /**
-     * sets the height to force full images to
-     *
-     * @var int
-     * @config
-     */
-    private static $force_image_height = null;
-    
-    /**
-     * forces the resize type to a fixed type
-     * options: crop, pad, ratio, width, height
-     * 
-     * @var string
-     * @config
-     */
-    private static $force_image_resize_type = null;
-
     private static $description = 'Display a "gallery" of images';
 
     private static $icon_class = 'font-icon-p-gallery-alt';
@@ -57,23 +33,23 @@ class GalleryPage extends GalleryHub
         "ImageResizeType" => "Enum(array('crop','pad','ratio','width','height'), 'ratio')"
     ];
 
+    private static $has_one = [
+        'Gallery' => Gallery::class
+    ];
+
+    private static $owns = [
+        'Gallery'
+    ];
+
+    private static $cascade_deletes = [
+        'Gallery'
+    ];
+
     private static $defaults = [
         "ImageWidth" => 950,
         "ImageHeight" => 500,
         "ImageResizeType" => 'ratio',
         "ShowSideBar" => 1
-    ];
-
-    private static $many_many = [
-        'Images' => Image::class
-    ];
-
-    private static $many_many_extraFields = [
-        'Images' => ['SortOrder' => 'Int']
-    ];
-
-    private static $owns = [
-        'Images'
     ];
 
     public function getControllerName() {
@@ -91,14 +67,20 @@ class GalleryPage extends GalleryHub
         return stristr($this->Content, '$Gallery');
     }
 
-    /**
-     * Return sorted images
-     *
-     * @return SSList
-     */
+    public function Images()
+    {
+        Deprecation::notice('3.0');
+        return $this->getImages();
+    }
+
+    public function getImages()
+    {
+        return $this->Gallery()->Images();
+    }
+
     public function SortedImages()
     {
-        return $this->Images()->Sort('SortOrder');
+        return $this->Gallery()->getSortedImages();
     }
 
     public function getCMSFields()
@@ -115,27 +97,25 @@ class GalleryPage extends GalleryHub
             if (!$self->canEdit()) {
                 return;
             }
-            
+
+            $gallery = HasOneButtonField::create($this, 'Gallery');
+            $gallery
+                ->getConfig()
+                ->removeComponentsByType(GridFieldHasOneUnlinkButton::class);
+
+            $fields->insertBefore(
+                'Content',
+                $gallery
+            );
+
             $fields->removeByName('HideDescription');
-            
-            $upload_folder = Controller::join_links(
-                "gallery",
-                $self->ID
-            );
-            
-            $fields->addFieldToTab(
-                "Root.Gallery",
-                SortableUploadField::create(
-                    'Images',
-                    $this->fieldLabel('Images')
-                )->setFolderName($upload_folder)
-            );
         });
-            
+
         return parent::getCMSFields();
     }
 
-    public function getSettingsFields() {
+    public function getSettingsFields()
+    {
         $fields = parent::getSettingsFields();
         $fwidth = $this->config()->get('force_image_width');
         $fheight = $this->config()->get('force_image_height');
@@ -160,16 +140,6 @@ class GalleryPage extends GalleryHub
         );
 
         return $fields;
-    }
-
-    public function onBeforeWrite()
-    {
-        parent::onBeforeWrite();
-
-        // default settings (if not set)
-        $defaults = $this->config()->defaults;
-        $this->ImageWidth = ($this->getFullWidth()) ? $this->getFullWidth() : $defaults["ImageWidth"];
-        $this->ImageHeight = ($this->getFullHeight()) ? $this->getFullHeight() : $defaults["ImageHeight"];
     }
 
     public function getFullWidth()
@@ -202,4 +172,24 @@ class GalleryPage extends GalleryHub
         return $this->ImageResizeType;
     }
 
+    public function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+
+        // default settings (if not set)
+        $defaults = $this->config()->defaults;
+        $this->ImageWidth = ($this->getFullWidth()) ? $this->getFullWidth() : $defaults["ImageWidth"];
+        $this->ImageHeight = ($this->getFullHeight()) ? $this->getFullHeight() : $defaults["ImageHeight"];
+    
+        if (!$this->Gallery()->exists()) {
+            $gallery = Gallery::create([
+                'Name' => $this->Title
+            ]);
+            $gallery->write();
+            $this->GalleryID = $gallery->ID;
+        } else {
+            $this->Gallery()->Name = $this->Title;
+            $this->Gallery()->write();
+        }
+    }
 }

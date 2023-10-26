@@ -60,7 +60,7 @@ class Gallery extends DataObject
         'Code' => 'Varchar'
     ];
 
-    private static $has_one = [
+    private static $belongs_to = [
         'Page' => GalleryPage::class
     ];
 
@@ -101,7 +101,10 @@ class Gallery extends DataObject
 
     public function forTemplate()
     {
-        return $this->renderWith(static::class);
+        return $this->renderWith([
+            'Gallery',
+            static::class
+        ]);
     }
 
     public function getSortedImages()
@@ -109,6 +112,15 @@ class Gallery extends DataObject
         return $this
             ->Images()
             ->sort('SortOrder', 'ASC');
+    }
+
+    public function getUploadFolderName()
+    {
+        return Controller::join_links(
+            "gallery",
+            "object",
+            $this->ID
+        );
     }
 
     public function getPaginatedImages()
@@ -129,13 +141,18 @@ class Gallery extends DataObject
 
     public function getCMSFields()
     {
-        $self =& $this;
-
-        $this->beforeUpdateCMSFields(function ($fields) use ($self) {
+        $this->beforeUpdateCMSFields(function ($fields) {
 
             /** @var GridField */
             $images_field = $fields->dataFieldByName('Images');
+            $name_field = $fields->dataFieldByName('Name');
             $code_field = $fields->dataFieldByName('Code');
+
+            if ($this->Page()->exists()) {
+                $name_field
+                    ->setReadonly(true)
+                    ->performReadonlyTransformation();
+            }
 
             if (!empty($code_field)) {
                 $code_field
@@ -143,23 +160,8 @@ class Gallery extends DataObject
                     ->performReadonlyTransformation();
             }
 
-            // Setup settings tab
-            $fields->addFieldsToTab(
-                'Root.Settings',
-                [
-                    $code_field,
-                    $self
-                        ->relObject('PageID')
-                        ->scaffoldFormField($self->fieldLabel('Page'))
-                ]
-            );
-
             if (!empty($images_field)) {
-                $upload_folder = Controller::join_links(
-                    "gallery",
-                    "object",
-                    $self->ID
-                );
+                $upload_folder = $this->getUploadFolderName();
 
                 $new_images_field = SortableUploadField::create(
                         'Images',
