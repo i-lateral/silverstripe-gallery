@@ -3,9 +3,9 @@
 namespace ilateral\SilverStripe\Gallery\Admin;
 
 use ilateral\SilverStripe\Gallery\Model\Gallery;
-use SilverStripe\Admin\ModelAdmin;
+use ilateral\SilverStripe\ModelAdminPlus\ModelAdminPlus;
 
-class GalleryAdmin extends ModelAdmin
+class GalleryAdmin extends ModelAdminPlus
 {
     private static $managed_models = [
         Gallery::class
