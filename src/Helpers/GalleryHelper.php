@@ -77,6 +77,27 @@ class GalleryHelper
         'CropHeight' => ['height']
     ];
 
+    public static function getAdjustmentMethods($values = false): array
+    {
+        /** @var array */
+        $methods = Config::inst()->get(
+            static::class,
+            'adjust_method_args'
+        );
+
+        $methods = array_keys($methods);
+
+        if ($values === false) {
+            return $methods;
+        }
+
+        foreach ($methods as $method) {
+            $methods[$method] = $method;
+        }
+
+        return $methods;
+    }
+
     public function __construct(Image $image)
     {
         $arguments = Config::inst()->get(
@@ -94,7 +115,7 @@ class GalleryHelper
     protected function findMethodArguments(): array
     {
         /** @var array */
-        $arguments = Config::inst()->get(self::class, 'adjust_method_args');
+        $arguments = self::getAdjustmentMethods(false);
         $args_list = [];
         $method = $this->getAdjustMethod();
 
