@@ -77,6 +77,20 @@ class GalleryHelper
         'CropHeight' => ['height']
     ];
 
+    /**
+     * Adjustment methods (and mapping)
+     * from versions prior to 3.0
+     * 
+     * @var array
+     */
+    private $legacy_methods = [
+        'crop' => 'Fill',
+        'pad' => 'Pad',
+        'ratio' => 'Fit',
+        'width' => 'ScaleWidth',
+        'height' => 'ScaleHeight'
+    ];
+
     public static function getAdjustmentMethods($values = false): array
     {
         /** @var array */
@@ -91,8 +105,11 @@ class GalleryHelper
             return $methods;
         }
 
+        $i = 0;
         foreach ($methods as $method) {
+            unset($methods[$i]);
             $methods[$method] = $method;
+            $i++;
         }
 
         return $methods;
@@ -112,10 +129,32 @@ class GalleryHelper
         $this->setImage($image);
     }
 
+    /**
+     * Support for < 3.0 adjust strings
+     *
+     */
+    protected function isLegacyAdjustment(string $method = null): bool
+    {
+        if (empty($method)) {
+            $method = $this->getAdjustMethod();
+        }
+        $legacy = $this->legacy_methods;
+
+        // Support for < 3.0 adjustment strings
+        if (array_key_exists($method, $legacy)) {
+            return true; $method = $legacy[$method];
+        }
+
+        return false;
+    }
+
     protected function findMethodArguments(): array
     {
         /** @var array */
-        $arguments = self::getAdjustmentMethods(false);
+        $arguments = Config::inst()->get(
+            static::class,
+            'adjust_method_args'
+        );
         $args_list = [];
         $method = $this->getAdjustMethod();
 
@@ -123,7 +162,7 @@ class GalleryHelper
         // into values to pass to the resize function
         foreach ($arguments[$method] as $arg) {
             $arg_name = 'get' . ucfirst($arg);
-            
+
             if (!method_exists($this, $arg_name)) {
                 throw new LogicException('Method ' . $arg_name . ' not available on GalleryHelper');
             }
@@ -200,6 +239,12 @@ class GalleryHelper
             self::class,
             'adjust_method_args'
         );
+
+        // Update legacy resize method (if needed)
+        if ($this->isLegacyAdjustment($method)) {
+            $legacy = $this->legacy_methods;
+            $method = $legacy[$method];
+        }
 
         if (!array_key_exists($method, $arguments)) {
             throw new LogicException('Method: ' . $method . ' does not have supported arguments');
