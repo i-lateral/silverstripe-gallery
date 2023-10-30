@@ -33,60 +33,136 @@ class GalleryImage extends DataObject
         Versioned::class
     ];
 
-    public function getGalleryThumbnail()
+    public function getThumbnailWidth()
     {
-        $image = $this->Image();
-        $width = Config::inst()->get(
+        $page = $this->Gallery()->Page();
+
+        if ($page->exists()) {
+            return $page->getThumbWidth();
+        }
+
+        return Config::inst()->get(
             Gallery::class,
             'thumbnail_width'
         );
-        $height = Config::inst()->get(
+    }
+
+    public function getThumbnailHeight()
+    {
+        $page = $this->Gallery()->Page();
+
+        if ($page->exists()) {
+            return $page->getThumbHeight();
+        }
+
+        return Config::inst()->get(
             Gallery::class,
             'thumbnail_height'
         );
-        $adjust_method = Config::inst()->get(
+    }
+
+    public function getThumbnailAdjust()
+    {
+        $page = $this->Gallery()->Page();
+
+        if ($page->exists()) {
+            return $page->getThumbResize();
+        }
+
+        return Config::inst()->get(
             Gallery::class,
             'thumbnail_resize_method'
         );
-        $background = Config::inst()->get(
+    }
+
+    public function getThumbnailBackground()
+    {
+        $page = $this->Gallery()->Page();
+
+        if ($page->exists()) {
+            return $page->getPadBackground();
+        }
+
+        return Config::inst()->get(
             Gallery::class,
             'thumbnail_padding_background'
         );
+    }
 
-        $helper = GalleryHelper::create($image)
-            ->setWidth($width)
-            ->setHeight($height)
-            ->setAdjustMethod($adjust_method)
-            ->setBackground($background);
+    public function getImageWidth()
+    {
+        $page = $this->Gallery()->Page();
+
+        if ($page->exists()) {
+            return $page->getFullWidth();
+        }
+
+        return Config::inst()->get(
+            Gallery::class,
+            'image_width'
+        );
+    }
+
+    public function getImageHeight()
+    {
+        $page = $this->Gallery()->Page();
+
+        if ($page->exists()) {
+            return $page->getFullHeight();
+        }
+
+        return Config::inst()->get(
+            Gallery::class,
+            'image_height'
+        );
+    }
+
+    public function getImageAdjust()
+    {
+        $page = $this->Gallery()->Page();
+
+        if ($page->exists()) {
+            return $page->getFullResize();
+        }
+
+        return Config::inst()->get(
+            Gallery::class,
+            'image_resize_method'
+        );
+    }
+
+    public function getImageBackground()
+    {
+        $page = $this->Gallery()->Page();
+
+        if ($page->exists()) {
+            return $page->getPadBackground();
+        }
+
+        return Config::inst()->get(
+            Gallery::class,
+            'image_padding_background'
+        );
+    }
+
+    public function getGalleryThumbnail()
+    {
+        $helper = GalleryHelper::create($this->Image())
+            ->setWidth($this->getThumbnailWidth())
+            ->setHeight($this->getThumbnailHeight())
+            ->setAdjustMethod($this->getThumbnailAdjust())
+            ->setBackground($this->getThumbnailBackground());
 
         return $helper->adjustImage();
     }
 
     public function getGalleryImage()
     {
-        $image = $this->Image();
-        $width = Config::inst()->get(
-            Gallery::class,
-            'image_width'
-        );
-        $height = Config::inst()->get(
-            Gallery::class,
-            'image_height'
-        );
-        $adjust_method = Config::inst()->get(
-            Gallery::class,
-            'image_resize_method'
-        );
-        $background = Config::inst()->get(
-            Gallery::class,
-            'image_padding_background'
-        );
-
-        $helper = GalleryHelper::create($image)
-            ->setWidth($width)
-            ->setHeight($height)
-            ->setAdjustMethod($adjust_method)
-            ->setBackground($background);
+        $helper = GalleryHelper::create($this->Image())
+            ->setWidth($this->getImageWidth())
+            ->setHeight($this->getImageHeight())
+            ->setAdjustMethod($this->getImageAdjust())
+            ->setBackground($this->getImageBackground());
 
         return $helper->adjustImage();
     }
