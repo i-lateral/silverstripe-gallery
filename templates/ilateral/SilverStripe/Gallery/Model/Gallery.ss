@@ -7,20 +7,7 @@
     <div class="gallery-thumbnails">
         <div class="row line">
             <% loop $PaginatedImages %>
-                <div class="col-lg-2 col-md-3 col-6 unit size1of5 <% if $MultipleOf(5) %>lastUnit<% end_if %>">
-                    <figure>
-                        <span data-url="{$Join.GalleryImage.Link}">
-                            <img
-                                class="gallery-thumbnail img-fluid img-responsive"
-                                src="{$Join.GalleryThumbnail.Link}"
-                                alt="{$Title}"
-                            />
-                        </span>
-                        <% if $ShowImageTitles %>
-                            <figcaption>$Title</figcaption>
-                        <% end_if %>
-                    </figure>
-                </div>
+                <% include ilateral\SilverStripe\Gallery\Includes\GalleryImage Thumbnail=$Join.GalleryThumbnail,Image=$Join.GalleryImage,ShowTitles=$ShowImageTitles,Modal=true %>
             <% end_loop %>
         </div>
     </div>
