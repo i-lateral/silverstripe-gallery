@@ -3,12 +3,14 @@
 namespace ilateral\SilverStripe\Gallery\Model;
 
 use SilverStripe\Dev\Deprecation;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\DropdownField;
 use SilverShop\HasOneField\HasOneButtonField;
 use Bummzack\SortableFile\Forms\SortableUploadField;
-use ilateral\SilverStripe\Gallery\Control\GalleryPageController;
 use SilverShop\HasOneField\GridFieldHasOneUnlinkButton;
+use ilateral\SilverStripe\Gallery\Helpers\GalleryHelper;
+use ilateral\SilverStripe\Gallery\Control\GalleryPageController;
 
 /**
  * A single page that can display many images as thumbnails.
@@ -28,9 +30,9 @@ class GalleryPage extends GalleryHub
     private static $table_name = "GalleryPage";
 
     private static $db = [
-        "ImageWidth" => "Int",
-        "ImageHeight" => "Int",
-        "ImageResizeType" => "Enum(array('crop','pad','ratio','width','height'), 'ratio')"
+        'ImageWidth' => 'Int',
+        'ImageHeight' => 'Int',
+        'ImageResizeType' => 'Varchar'
     ];
 
     private static $has_one = [
@@ -46,9 +48,6 @@ class GalleryPage extends GalleryHub
     ];
 
     private static $defaults = [
-        "ImageWidth" => 950,
-        "ImageHeight" => 500,
-        "ImageResizeType" => 'ratio',
         "ShowSideBar" => 1
     ];
 
@@ -117,26 +116,16 @@ class GalleryPage extends GalleryHub
     public function getSettingsFields()
     {
         $fields = parent::getSettingsFields();
-        $fwidth = $this->config()->get('force_image_width');
-        $fheight = $this->config()->get('force_image_height');
-        $fresize = $this->config()->get('force_image_resize_type');
-
-        $new_fields = [];
-
-        if ($fwidth == null) {
-            $new_fields[] = NumericField::create("ImageWidth");
-        }
-        if ($fheight == null) {
-            $new_fields[] = NumericField::create("ImageHeight");
-        }
-        if ($fresize == null) {
-            $new_fields[] = DropdownField::create("ImageResizeType")
-                ->setSource($this->dbObject("ImageResizeType")->enumValues());
-        }
+        $adjust_methods = GalleryHelper::getAdjustmentMethods(true);
 
         $fields->addFieldsToTab(
-            'Root.Settings',
-            $new_fields
+            "Root.Settings",
+            [
+                NumericField::create("ImageWidth"),
+                NumericField::create("ImageHeight"),
+                DropdownField::create("ImageResizeType")
+                    ->setSource($adjust_methods)
+            ]
         );
 
         return $fields;
@@ -144,32 +133,50 @@ class GalleryPage extends GalleryHub
 
     public function getFullWidth()
     {
-        $forced = $this->config()->get('force_image_width');
-        if ($forced != null) {
-            return $forced;
+        $width = (int)$this->ImageWidth;
+
+        if ($width > 0) {
+            return $width;
         }
 
-        return $this->ImageWidth;
+        $default = Config::inst()->get(
+            Gallery::class,
+            'image_width'
+        );
+
+        return (int)$default;
     }
 
     public function getFullHeight()
     {
-        $forced = $this->config()->get('force_image_height');
-        if ($forced != null) {
-            return $forced;
+        $height = (int)$this->ImageHeight;
+
+        if ($height > 0) {
+            return $height;
         }
 
-        return $this->ImageHeight;
+        $default = Config::inst()->get(
+            Gallery::class,
+            'image_height'
+        );
+
+        return (int)$default;
     }
 
     public function getFullResize()
     {
-        $forced = $this->config()->get('force_image_resize_type');
-        if ($forced != null) {
-            return $forced;
+        $method = $this->ImageResizeType;
+
+        if (!empty($method)) {
+            return $method;
         }
 
-        return $this->ImageResizeType;
+        $default = Config::inst()->get(
+            Gallery::class,
+            'image_resize_method'
+        );
+
+        return $default;
     }
 
     public function onBeforeWrite()

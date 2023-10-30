@@ -8,6 +8,9 @@ use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use ilateral\SilverStripe\Gallery\Control\GalleryHubController;
+use ilateral\SilverStripe\Gallery\Helpers\GalleryHelper;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\ORM\ArrayList;
 
 /**
  * Generate a page that can display it's children as a grid of thumbnails
@@ -16,60 +19,24 @@ use ilateral\SilverStripe\Gallery\Control\GalleryHubController;
  */
 class GalleryHub extends Page
 {
-    /**
-     * sets the width to force thumbnails to
-     * 
-     * @var int
-     * @config
-     */
-    private static $force_thumbnail_width = null;
-
-    /**
-     * sets the height to force thumbnails to
-     *
-     * @var int
-     * @config
-     */
-    private static $force_thumbnail_height = null;
-
-    /**
-     * forces the resize type to a fixed type
-     * options: crop, pad, ratio, width, height
-     * 
-     * @var string
-     * @config
-     */
-    private static $force_thumbnail_resize_type = null;
-
     private static $description = 'Display child galleries as a thumbnail grid';
 
     private static $icon_class = 'font-icon-p-gallery';
 
     private static $table_name = "GalleryHub";
 
-    /**
-     * @var array
-     */
     private static $allowed_children = [
         GalleryPage::class,
     ];
 
     private static $db = [
-        "ShowSideBar" => "Boolean",
-        "ShowImageTitles" => "Boolean",
-        "ThumbnailWidth" => "Int",
-        "ThumbnailHeight" => "Int",
-        "ThumbnailResizeType" => "Enum(array('crop','pad','ratio','width','height'), 'crop')",
-        "PaddedImageBackground" => "Varchar",
-        "ThumbnailsPerPage" => "Int"
-    ];
-
-    private static $defaults = [
-        "ThumbnailWidth" => 150,
-        "ThumbnailHeight" => 150,
-        "ThumbnailsPerPage" => 18,
-        "ThumbnailResizeType" => 'crop',
-        "PaddedImageBackground" => "ffffff"
+        'ShowSideBar' => 'Boolean',
+        'ShowImageTitles' => 'Boolean',
+        'ThumbnailWidth' => 'Int',
+        'ThumbnailHeight' => 'Int',
+        'ThumbnailResizeType' => 'Varchar',
+        'ThumbnailsPerPage' => 'Int',
+        'PaddedImageBackground' => 'Varchar'
     ];
 
     public function getControllerName() {
@@ -78,8 +45,7 @@ class GalleryHub extends Page
 
     public function getCMSFields()
     {
-        $self =& $this;
-        $this->beforeUpdateCMSFields(function ($fields) use ($self) {
+        $this->beforeUpdateCMSFields(function ($fields) {
             $fields->removeByName([
                 "ShowSideBar",
                 "ShowImageTitles",
@@ -97,78 +63,103 @@ class GalleryHub extends Page
     public function getSettingsFields()
     {
         $fields = parent::getSettingsFields();
-        $fwidth = $this->config()->get('force_thumbnail_width');
-        $fheight = $this->config()->get('force_thumbnail_height');
-        $fresize = $this->config()->get('force_thumbnail_resize_type');
 
-        $new_fields = [
-            CheckboxField::create('ShowSideBar'),
-            CheckboxField::create('ShowImageTitles')
-        ];
-
-        if ($fwidth == null) {
-            $new_fields[] = NumericField::create("ThumbnailWidth");
-        }
-
-        if ($fheight == null) {
-            $new_fields[] = NumericField::create("ThumbnailHeight");
-        }
-
-        if ($fresize == null) {
-            $new_fields[] = DropdownField::create("ThumbnailResizeType")
-                ->setSource($this->dbObject("ThumbnailResizeType")->enumValues());
-        }
-
-        $new_fields[] = NumericField::create('ThumbnailsPerPage');
-        $new_fields[] = TextField::create("PaddedImageBackground");
+        $adjust_methods = GalleryHelper::getAdjustmentMethods(true);
 
         $fields->addFieldsToTab(
             "Root.Settings",
-            $new_fields
+            [
+                CheckboxField::create('ShowSideBar'),
+                CheckboxField::create('ShowImageTitles'),
+                NumericField::create("ThumbnailWidth"),
+                NumericField::create("ThumbnailHeight"),
+                DropdownField::create("ThumbnailResizeType")
+                    ->setSource($adjust_methods),
+                NumericField::create('ThumbnailsPerPage'),
+                TextField::create("PaddedImageBackground")
+            ]
         );
 
         return $fields;
     }
 
-    public function onBeforeWrite()
+    public function getThumbWidth(): int
     {
-        parent::onBeforeWrite();
+        $width = (int)$this->ThumbnailWidth;
 
-        // default settings (if not set)
-        $defaults = $this->config()->defaults;
-        $this->ThumbnailWidth = ($this->getThumbWidth()) ? $this->getThumbWidth() : $defaults["ThumbnailWidth"];
-        $this->ThumbnailHeight = ($this->getThumbHeight()) ? $this->getThumbHeight() : $defaults["ThumbnailHeight"];
-        $this->ThumbnailsPerPage = ($this->ThumbnailsPerPage) ? $this->ThumbnailsPerPage : $defaults["ThumbnailsPerPage"];
-        $this->PaddedImageBackground = ($this->PaddedImageBackground) ? $this->PaddedImageBackground : $defaults["PaddedImageBackground"];
-    }
-
-    public function getThumbWidth()
-    {
-        $forced = $this->config()->get('force_thumbnail_width');
-        if ($forced != null) {
-            return $forced;
+        if ($width > 0) {
+            return $width;
         }
 
-        return $this->ThumbnailWidth;
+        $default = Config::inst()->get(
+            Gallery::class,
+            'thumbnail_width'
+        );
+
+        return (int)$default;
     }
 
     public function getThumbHeight()
     {
-        $forced = $this->config()->get('force_thumbnail_height');
-        if ($forced != null) {
-            return $forced;
+        $height = (int)$this->ThumbnailHeight;
+
+        if ($height > 0) {
+            return $height;
         }
 
-        return $this->ThumbnailHeight;
+        $default = Config::inst()->get(
+            Gallery::class,
+            'thumbnail_height'
+        );
+
+        return (int)$default;
     }
 
     public function getThumbResize()
     {
-        $forced = $this->config()->get('force_thumbnail_resize_type');
-        if ($forced != null) {
-            return $forced;
+        $type = $this->ThumbnailResizeType;
+
+        if (!empty($type)) {
+            return $type;
         }
 
-        return $this->ThumbnailResizeType;
+        $default = Config::inst()->get(
+            Gallery::class,
+            'thumbnail_resize_method'
+        );
+
+        return $default;
+    }
+
+    public function getPadBackground()
+    {
+        $hex = $this->PaddedImageBackground;
+
+        if (!empty($hex)) {
+            return $hex;
+        }
+
+        $default = Config::inst()->get(
+            Gallery::class,
+            'thumbnail_padding_background'
+        );
+
+        return $default;
+    }
+
+    public function getPageLength()
+    {
+        $length = (int)$this->ThumbnailsPerPage;
+
+        if ($length > 0) {
+            return $length;
+        }
+
+        $default = Config::inst()->get(
+            Gallery::class,
+            'thumbnails_per_page'
+        );
+
+        return (int)$default;
     }
 }
