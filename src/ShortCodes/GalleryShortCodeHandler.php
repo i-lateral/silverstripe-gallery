@@ -21,6 +21,11 @@ class GalleryShortCodeHandler implements ShortcodeHandler
 		return [self::SHORTCODE_GALLERY];
 	}
 
+    public static function generateShortCode(Gallery $gallery)
+    {
+        return '[' . self::SHORTCODE_GALLERY . ' code=' . $gallery->Code . ']'; 
+    }
+
 	/**
 	 *
 	 * @param array $arguments

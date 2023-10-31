@@ -14,6 +14,8 @@ use SilverStripe\ORM\ManyManyThroughList;
 use SilverStripe\Forms\GridField\GridField;
 use Bummzack\SortableFile\Forms\SortableUploadField;
 use ilateral\SilverStripe\Gallery\Model\GalleryImage;
+use ilateral\SilverStripe\Gallery\ShortCodes\GalleryShortCodeHandler;
+use SilverStripe\Forms\ReadonlyField;
 
 /**
  * @property string Name
@@ -76,6 +78,10 @@ class Gallery extends DataObject
         'Images'
     ];
 
+    private static $casting = [
+        'ShortCode' => 'Varchar'
+    ];
+
     private static $defaults = [
         "ThumbnailsPerPage" => 18,
         "ThumbnailResizeType" => 'crop',
@@ -105,6 +111,11 @@ class Gallery extends DataObject
             'Gallery',
             static::class
         ]);
+    }
+
+    public function getShortCode()
+    {
+        return GalleryShortCodeHandler::generateShortCode($this);
     }
 
     public function getSortedImages()
@@ -175,6 +186,18 @@ class Gallery extends DataObject
                         $new_images_field
                     );
             }
+
+            // Add a shortcode that can be pasted into templates
+            $description = _t(
+                static::class . '.ShortCodeDescription',
+                'You can paste this code into WYSIWYG editor content to render this gallery'
+            );
+            $fields->addFieldToTab(
+                'Root.Main',
+                ReadonlyField::create('ShortCode')
+                    ->setDescription($description),
+                'Code'
+            );
         });
 
         return parent::getCMSFields();
