@@ -24,7 +24,7 @@
         "silverstripe/cms": "^4.1",
         "bummzack/sortablefile": "^2.0",
         "i-lateral/silverstripe-modeladminplus": "^1.2",
-        "silvershop/silverstripe-hasonefield": "^4.0"
+        "silvershop/silverstripe-hasonefield": "^3.0 || ^4.0"
     },
     "extra": {
         "expose": [
